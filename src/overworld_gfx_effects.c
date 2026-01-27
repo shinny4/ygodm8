@@ -1,0 +1,1671 @@
+#include "global.h"
+
+extern const unsigned char g84D6BB0[];
+extern const unsigned char g84D9B64[];
+extern const unsigned char g84DACDC[];
+extern const unsigned char g84DE050[];
+extern const unsigned char g84DF1C8[];
+extern const unsigned char g84E2698[];
+
+extern const unsigned short g84D9184[];
+extern const unsigned short g84DA2FC[];
+extern const unsigned short g84DD670[];
+extern const unsigned short g84DE7E8[];
+extern const unsigned short g84E1CB8[];
+extern const unsigned short g84E2E34[];
+
+extern const unsigned short g84D9984[];
+extern const unsigned short g84DAAFC[];
+extern const unsigned short g84DDE70[];
+extern const unsigned short g84DEFE8[];
+extern const unsigned short g84E24B8[];
+extern const unsigned short g84E3634[];
+
+//TODO: convert this into a 2d array somehow?
+static CONST_DATA signed short gE0DB14[] = {
+  0, -46, 2,
+  0, -41, 2,
+  0, -36, 2,
+  0, -34, 2,
+  0, -32, 2,
+  0, -30, 2,
+  0, -28, 2,
+  0, -26, 2,
+  0, -25, 2,
+  0, -24, 2,
+  0, -23, 2,
+  0, -22, 2,
+  0, -21, 2,
+  0, -20, 2,
+  0, -19, 2,
+  0, -18, 2,
+  0, -17, 2,
+  0, -16, 80,
+  0, -15, 2,
+  0, -14, 2,
+  0, -13, 2,
+  0, -12, 2,
+  0, -11, 2,
+  0, -10, 2,
+  0, -9, 2,
+  0, -8, 2,
+  0, -7, 2,
+  0, -6, 2,
+  0, -4, 2,
+  0, -2, 2,
+  0, 0, 2,
+  0, 2, 2,
+  0, 4, 2,
+  0, 9, 2,
+  0, 14, 2,
+  0, 0, -1
+};
+//same exact data ^
+static CONST_DATA signed short gE0DBEC[][3] = {
+  0, -46, 2,
+  0, -41, 2,
+  0, -36, 2,
+  0, -34, 2,
+  0, -32, 2,
+  0, -30, 2,
+  0, -28, 2,
+  0, -26, 2,
+  0, -25, 2,
+  0, -24, 2,
+  0, -23, 2,
+  0, -22, 2,
+  0, -21, 2,
+  0, -20, 2,
+  0, -19, 2,
+  0, -18, 2,
+  0, -17, 2,
+  0, -16, 80,
+  0, -15, 2,
+  0, -14, 2,
+  0, -13, 2,
+  0, -12, 2,
+  0, -11, 2,
+  0, -10, 2,
+  0, -9, 2,
+  0, -8, 2,
+  0, -7, 2,
+  0, -6, 2,
+  0, -4, 2,
+  0, -2, 2,
+  0, 0, 2,
+  0, 2, 2,
+  0, 4, 2,
+  0, 9, 2,
+  0, 14, 2,
+  0, 0, -1
+};
+//same exact data ^
+static CONST_DATA signed short gE0DCC4[][3] = {
+  0, -46, 2,
+  0, -41, 2,
+  0, -36, 2,
+  0, -34, 2,
+  0, -32, 2,
+  0, -30, 2,
+  0, -28, 2,
+  0, -26, 2,
+  0, -25, 2,
+  0, -24, 2,
+  0, -23, 2,
+  0, -22, 2,
+  0, -21, 2,
+  0, -20, 2,
+  0, -19, 2,
+  0, -18, 2,
+  0, -17, 2,
+  0, -16, 80,
+  0, -15, 2,
+  0, -14, 2,
+  0, -13, 2,
+  0, -12, 2,
+  0, -11, 2,
+  0, -10, 2,
+  0, -9, 2,
+  0, -8, 2,
+  0, -7, 2,
+  0, -6, 2,
+  0, -4, 2,
+  0, -2, 2,
+  0, 0, 2,
+  0, 2, 2,
+  0, 4, 2,
+  0, 9, 2,
+  0, 14, 2,
+  0, 0, -1
+};
+
+static CONST_DATA signed short gE0DD9C[][3] = {
+  {240, 0, 2},
+  {120, 0, 2},
+  {60, 0, 2},
+  {30, 0, 2},
+  {15, 0, 2},
+  {8, 0, 2},
+  {6, 0, 2},
+  {4, 0, 2},
+  {2, 0, 2},
+  {1, 0, 2},
+  {0, 0, 50},
+  {-1, 0, 2},
+  {-2, 0, 2},
+  {-4, 0, 2},
+  {-6, 0, 2},
+  {-8, 0, 2},
+  {-15, 0, 2},
+  {-30, 0, 2},
+  {-60, 0, 2},
+  {-120, 0, 2},
+  {-240, 0, 2},
+  {0, 0, -1}
+};
+
+static CONST_DATA signed short gE0DE20[][3] = {
+  {-240, 0, 2},
+  {-120, 0, 2},
+  {-60, 0, 2},
+  {-30, 0, 2},
+  {-15, 0, 2},
+  {-8, 0, 2},
+  {-6, 0, 2},
+  {-4, 0, 2},
+  {-2, 0, 2},
+  {-1, 0, 2},
+  {0, 0, 50},
+  {1, 0, 2},
+  {2, 0, 2},
+  {4, 0, 2},
+  {6, 0, 2},
+  {8, 0, 2},
+  {15, 0, 2},
+  {30, 0, 2},
+  {60, 0, 2},
+  {120, 0, 2},
+  {240, 0, 2},
+  {0, 0, -1}
+};
+
+static CONST_DATA signed short gE0DEA4[][3] = {
+  {0, 0, 60},
+  {0, 0, -1}
+};
+
+static CONST_DATA signed short gE0DEB0[][3] = {
+  {240, 0, 2},
+  {120, 0, 2},
+  {60, 0, 2},
+  {30, 0, 2},
+  {15, 0, 2},
+  {8, 0, 2},
+  {6, 0, 2},
+  {4, 0, 2},
+  {2, 0, 2},
+  {1, 0, 2},
+  {0, 0, 50},
+  {-1, 0, 2},
+  {-2, 0, 2},
+  {-4, 0, 2},
+  {-6, 0, 2},
+  {-8, 0, 2},
+  {-15, 0, 2},
+  {-30, 0, 2},
+  {-60, 0, 2},
+  {-120, 0, 2},
+  {-240, 0, 2},
+  {0, 0, -1}
+};
+
+static CONST_DATA signed short gE0DF34[][3] = {
+  {240, 0, 2},
+  {120, 0, 2},
+  {60, 0, 2},
+  {30, 0, 2},
+  {15, 0, 2},
+  {8, 0, 2},
+  {6, 0, 2},
+  {4, 0, 2},
+  {2, 0, 2},
+  {1, 0, 2},
+  {0, 0, 50},
+  {-1, 0, 2},
+  {-2, 0, 2},
+  {-4, 0, 2},
+  {-6, 0, 2},
+  {-8, 0, 2},
+  {-15, 0, 2},
+  {-30, 0, 2},
+  {-60, 0, 2},
+  {-120, 0, 2},
+  {-240, 0, 2},
+  {-300, 0, 2},
+  {0, 0, -1}
+};
+
+//TODO: use effect id enum
+static CONST_DATA signed short (* CONST_DATA g8E0DFC0[])[3] = {
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  gE0DBEC,
+  (signed short(*)[3])gE0DB14,
+  gE0DCC4,
+  (signed short(*)[3])gE0DB14,
+  gE0DD9C,
+  (signed short(*)[3])gE0DB14,
+  gE0DE20,
+  gE0DEA4,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  gE0DEB0,
+  (signed short(*)[3])gE0DB14,
+  gE0DF34,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14,
+  (signed short(*)[3])gE0DB14
+};
+
+static CONST_DATA unsigned char g8E0E08C[] = {0, 9, 18, 0, 0};
+static CONST_DATA signed char g8E0E091[] = {16, 16, 12, 9, 6, 3, 0, -1};
+static CONST_DATA signed char g8E0E099[] = {0, 2, 4, 6, 8, 10, 14, 16, -1};
+static CONST_DATA signed char g8E0E0A2[] = {0, 2, 4, 6, 8, 10, 12, 14, 16, -1};
+static CONST_DATA unsigned char g8E0E0AC[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 6, 8, 10, 14, 16, 16};
+static CONST_DATA unsigned char g8E0E0D2[] = {0, 1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
+static CONST_DATA unsigned char gE0E0F8[] = {
+16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
+0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+14, 15, 16, 16
+};
+static CONST_DATA signed char g8E0E11C[] = {
+16, 16, 16, 16, 16, 14, 14, 14, 14, 14, 10, 10, 10, 10, 10, 8,
+8, 8, 8, 8, 6, 6, 6, 6, 6, 4, 4, 4, 4, 4, 2, 2,
+2, 2, 2, 0, 0, 0, 0, 0, -1, 0
+};
+static CONST_DATA signed short gE0E146[] = {
+-1, 336, -1, 335, -1, 337, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1,
+-1, 349, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1
+};
+static CONST_DATA signed char g8E0E1D2[] = {
+-1, -1, -1, -1, -1, -1, -1, 14, 13, 14, -1, -1, 26, -1, 14, -1,
+14, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 13, -1, 12, 14,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+};
+static CONST_DATA unsigned char g8E0E20E[] = {
+0, 1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+6, 6, 6, 6, 6, 6
+};
+static CONST_DATA signed char g8E0E284[] = {
+5, 4, 3, 2, 1, 0, -1, 0, 2, 4, 6, 8, 10, 12, 14, 16,
+-1
+};
+static CONST_DATA signed char g8E0E295[] = {
+2, 2, 1, 1, 0, 0, 0, 0, 0, 0, -1
+};
+static CONST_DATA signed char g8E0E2A0[] = {
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+16, -1
+};
+static CONST_DATA signed char g8E0E2B2[] = {
+16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
+0, -1
+};
+static CONST_DATA signed char g8E0E2C4[] = {
+1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
+1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
+0, 0, 0, 0, 0, 1, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8,
+9, 10, 11, 12, 13, 14, 15, 16, 16, 16, 16
+};
+static CONST_DATA signed char g8E0E2FF[] = {
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+16, -1
+};
+
+static CONST_DATA signed char g8E0E311[] = {16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, 0};
+
+
+
+// Rex, Mako, Weevil unused graphics; (the other 3 were most likely meant to be Mai, Bonz, Espa)
+static const unsigned char * CONST_DATA g8E0E324[] = { //tilesets
+  g84D6BB0,
+  g84D9B64,
+  g84DACDC,
+  g84DE050,
+  g84DF1C8,
+  g84E2698
+};
+static const unsigned short * CONST_DATA g8E0E33C[] = {//tilemaps
+  g84D9184,
+  g84DA2FC,
+  g84DD670,
+  g84DE7E8,
+  g84E1CB8,
+  g84E2E34
+};
+static const unsigned short * CONST_DATA g8E0E354[] = {//palettes
+  g84D9984,
+  g84DAAFC,
+  g84DDE70,
+  g84DEFE8,
+  g84E24B8,
+  g84E3634
+};
+static CONST_DATA unsigned char g8E0E36C[] = {//tileset cbb offset
+  0,
+  0,
+  0,
+  0,
+  0,
+  0
+};
+static CONST_DATA unsigned short g8E0E372[] = {//tilemap sbb offset
+  0x7C00,
+  0x7C00,
+  0x7C00,
+  0x7C00,
+  0x7C00,
+  0x7C00
+};
+static CONST_DATA unsigned char g8E0E37E[] = {//palette offset
+  16,
+  16,
+  16,
+  16,
+  16,
+  16
+};
+
+//TODO: use effect id enum and effect type enum
+extern CONST_DATA unsigned char g8E0E384[];/* = {
+
+};
+*/
+
+extern unsigned char* g8FC4440[];
+extern unsigned short* g8FC452C[];
+
+
+extern struct UnkFC4618 {
+  unsigned char unk0; //numFrames?
+  unsigned char unk1; //numSprites?
+  struct OamQM {
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+  } * unk4;
+} ** g8FC4618[];
+
+struct GfxEffect {
+  unsigned char unk0; //effectId; TODO: use enum
+  unsigned char unk1;
+  unsigned short unk2;
+  signed short unk4;
+  unsigned char unk6bit0:2;
+};
+
+
+
+void sub_805787C (int);
+void sub_804F850 (struct GfxEffect* arg0, u32 arg1, u32 arg2);
+
+extern unsigned char gSharedMem[];
+extern struct OamData gOamBuffer[];
+
+/*
+void sub_804F78C (u16 arg0) {
+  unsigned char i, j;
+  for (i = 23; i < 26; i++) {
+    int temp = g8E0E08C[i - 23] + 29;
+    unsigned char r4 = temp - arg0 % 29;
+    if (r4 >= 29)
+      r4 -= 29;
+    for (j = 0; j < 16; j++)
+      gPaletteBuffer[i * 16 + j] = 0;
+    if (arg0 <= g8E0E08C[i - 23])
+      continue;
+    for (j = 1; j < 16; j++) {
+      if (r4 + j > 14)
+        if (r4 + j < 31) {
+          *(gPaletteBuffer - 14 + i * 16 + r4 + j) = gSharedMem[i * 16 + j];
+        }
+    }
+  }
+}*/
+
+NAKED
+void sub_804F78C (u16 arg0) {
+  asm_unified("push {r4, r5, r6, r7, lr}\n\
+	mov r7, sl\n\
+	mov r6, sb\n\
+	mov r5, r8\n\
+	push {r5, r6, r7}\n\
+	lsls r0, r0, #0x10\n\
+	lsrs r0, r0, #0x10\n\
+	mov r8, r0\n\
+	movs r5, #0x17\n\
+	ldr r0, _0804F840\n\
+	mov sb, r0\n\
+	mov r0, r8\n\
+	movs r1, #0x1d\n\
+	bl __umodsi3\n\
+	mov sl, r0\n\
+_0804F7AC:\n\
+	adds r1, r5, #0\n\
+	subs r1, #0x17\n\
+	mov r2, sb\n\
+	adds r0, r1, r2\n\
+	ldrb r0, [r0]\n\
+	adds r0, #0x1d\n\
+	mov r2, sl\n\
+	subs r0, r0, r2\n\
+	lsls r0, r0, #0x18\n\
+	lsrs r4, r0, #0x18\n\
+	adds r7, r1, #0\n\
+	cmp r4, #0x1c\n\
+	bls _0804F7CE\n\
+	adds r0, r4, #0\n\
+	subs r0, #0x1d\n\
+	lsls r0, r0, #0x18\n\
+	lsrs r4, r0, #0x18\n\
+_0804F7CE:\n\
+	movs r2, #0\n\
+	lsls r1, r5, #4\n\
+	adds r5, #1\n\
+	mov ip, r5\n\
+	ldr r6, _0804F844\n\
+	adds r3, r1, #0\n\
+	movs r5, #0\n\
+_0804F7DC:\n\
+	adds r0, r3, r2\n\
+	lsls r0, r0, #1\n\
+	adds r0, r0, r6\n\
+	strh r5, [r0]\n\
+	adds r0, r2, #1\n\
+	lsls r0, r0, #0x18\n\
+	lsrs r2, r0, #0x18\n\
+	cmp r2, #0xf\n\
+	bls _0804F7DC\n\
+	mov r2, sb\n\
+	adds r0, r7, r2\n\
+	ldrb r0, [r0]\n\
+	cmp r8, r0\n\
+	bls _0804F826\n\
+	movs r2, #1\n\
+	adds r3, r1, #0\n\
+	adds r5, r3, r4\n\
+	ldr r7, _0804F848\n\
+	ldr r6, _0804F84C\n\
+_0804F802:\n\
+	adds r0, r4, r2\n\
+	cmp r0, #0xe\n\
+	ble _0804F81C\n\
+	cmp r0, #0x1e\n\
+	bgt _0804F81C\n\
+	adds r0, r5, r2\n\
+	lsls r0, r0, #1\n\
+	adds r0, r0, r7\n\
+	adds r1, r3, r2\n\
+	lsls r1, r1, #1\n\
+	adds r1, r1, r6\n\
+	ldrh r1, [r1]\n\
+	strh r1, [r0]\n\
+_0804F81C:\n\
+	adds r0, r2, #1\n\
+	lsls r0, r0, #0x18\n\
+	lsrs r2, r0, #0x18\n\
+	cmp r2, #0xf\n\
+	bls _0804F802\n\
+_0804F826:\n\
+	mov r1, ip\n\
+	lsls r0, r1, #0x18\n\
+	lsrs r5, r0, #0x18\n\
+	cmp r5, #0x19\n\
+	bls _0804F7AC\n\
+	pop {r3, r4, r5}\n\
+	mov r8, r3\n\
+	mov sb, r4\n\
+	mov sl, r5\n\
+	pop {r4, r5, r6, r7}\n\
+	pop {r0}\n\
+	bx r0\n\
+	.align 2, 0\n\
+_0804F840: .4byte 0x08E0E08C\n\
+_0804F844: .4byte 0x02000000\n\
+_0804F848: .4byte 0x01FFFFE4\n\
+_0804F84C: .4byte 0x02018800");
+}
+
+/*
+inline u32 sub_8051520_inline (struct GfxEffect* arg0, u16 arg1) {
+  u32 ret = 448;
+  int temp = arg1 + arg0->unk2;
+  if (temp >= 448) {
+    ret += 63;
+    ret = temp & ret;
+  }
+  if (temp <= 240) {
+    ret += 511;
+    ret = temp & ret;
+  }
+  return ret;
+}*/
+
+inline u16 sub_8051554_inline (struct GfxEffect* arg0, s16 arg1) {
+  u16 ret = 192;
+  if (arg1 + arg0->unk4 >= 192)
+    ret = arg1 + arg0->unk4 & 0xFF;
+  if (arg1 + arg0->unk4 <= 160)
+    ret = arg1 + arg0->unk4 & 0xFF;
+  return ret;
+}
+
+inline void sub_8051584 (void) {
+  CpuCopy16(gPaletteBuffer, gSharedMem, 0x400);
+}
+
+inline void sub_80515A0 (void) {
+  CpuCopy16(gSharedMem, gPaletteBuffer, 0x400);
+}
+
+inline void sub_80515BC (void) {
+  CpuCopy16(gOamBuffer, gSharedMem + 0x400, 0x400);
+}
+
+inline void sub_80515D8 (void) {
+  CpuCopy16(gSharedMem + 0x400, gOamBuffer, 0x400);
+}
+
+inline void sub_80515F4 (void) {
+  u32 i;
+  for (i = 0; g8E0E091[i] >= 0; i++) {
+    sub_80515A0();
+    sub_8044F80(gPaletteBuffer, 0, 0x1FF, g8E0E091[i]);
+    WaitForVBlank();
+    LoadPalettes();
+  }
+}
+
+inline void sub_8051648 (void) {
+  u32 i;
+  for (i = 0; g8E0E099[i] >= 0; i++) {
+    sub_80515A0();
+    sub_8044F80(gPaletteBuffer, 0, 0x16F, g8E0E099[i]);
+    sub_8044F80(gPaletteBuffer, 0x1C0, 0x1FF, g8E0E099[i]);
+    WaitForVBlank();
+    LoadPalettes();
+  }
+}
+
+inline void sub_80516B0 (u32 unsued, unsigned char arg0) {
+  u32 i;
+  for (i = 0; g8E0E0A2[i] >= 0; i++) {
+    gBLDALPHA = g8E0E0A2[i] << 8 | 0x10;
+    WaitForVBlank();
+    LoadBlendingRegs();
+    sub_805787C(arg0);
+  }
+}
+
+inline void sub_80516F8 (void) {
+  unsigned char i;
+  for (i = 1; i < 82; i++)
+    sub_80411EC(gOamBuffer + i);
+}
+
+inline void sub_805171C (void) {
+  unsigned char i;
+  for (i = 82; i < 97; i++)
+    sub_80411EC(gOamBuffer + i);
+}
+
+inline void sub_8051740 (void) {
+  sub_80516F8();
+  WaitForVBlank();
+  LoadOam();
+}
+
+//sp  = arg1 * 2
+//sp4 = r7 = arg2 * 8
+//r8 = i
+/*
+void sub_804F850 (struct GfxEffect* arg0, u32 arg1, u32 arg2) {
+  int i;
+  for (i = 1; i < 66; i++)
+    sub_80411EC(gOamBuffer + i);
+  for (i = 0; i < g8FC4618[arg0->unk0][arg1][arg2].unk1; i++) {
+    u16 sb = g8FC4618[arg0->unk0][arg1]->unk4[i].unk0;
+    u16 r3 = sub_8051554_inline(arg0, g8FC4618[arg0->unk0][arg1]->unk4[i].unk0);
+    u16* oam = (u16*)gOamBuffer;
+    int temp = (g8FC4618[arg0->unk0][arg1][arg2].unk1 - i) * 4;
+    r3 |= sb & 0xFF00;
+    oam[temp] = r3;
+  }
+}*/
+
+NAKED
+void sub_804F850 (struct GfxEffect* arg0, u32 arg1, u32 arg2) {
+  asm_unified("push {r4, r5, r6, r7, lr}\n\
+	mov r7, sl\n\
+	mov r6, sb\n\
+	mov r5, r8\n\
+	push {r5, r6, r7}\n\
+	sub sp, #8\n\
+	adds r5, r0, #0\n\
+	adds r6, r1, #0\n\
+	adds r7, r2, #0\n\
+	ldr r0, _0804F8A4\n\
+	adds r4, r0, #0\n\
+	adds r4, #8\n\
+	movs r0, #0x41\n\
+	mov r8, r0\n\
+_0804F86C:\n\
+	adds r0, r4, #0\n\
+	bl sub_80411EC\n\
+	adds r4, #8\n\
+	movs r1, #1\n\
+	rsbs r1, r1, #0\n\
+	add r8, r1\n\
+	mov r2, r8\n\
+	cmp r2, #0\n\
+	bge _0804F86C\n\
+	movs r3, #0\n\
+	mov r8, r3\n\
+	ldr r1, _0804F8A8\n\
+	ldrb r2, [r5]\n\
+	lsls r0, r2, #2\n\
+	adds r0, r0, r1\n\
+	ldr r0, [r0]\n\
+	lsls r6, r6, #2\n\
+	mov ip, r6\n\
+	add r0, ip\n\
+	ldr r0, [r0]\n\
+	lsls r7, r7, #3\n\
+	adds r0, r7, r0\n\
+	mov r4, ip\n\
+	str r4, [sp]\n\
+	str r7, [sp, #4]\n\
+	b _0804FA00\n\
+	.align 2, 0\n\
+_0804F8A4: .4byte gOamBuffer\n\
+_0804F8A8: .4byte 0x08FC4618\n\
+_0804F8AC:\n\
+	lsls r0, r2, #2\n\
+	ldr r6, _0804FA18\n\
+	adds r0, r0, r6\n\
+	ldr r0, [r0]\n\
+	add r0, ip\n\
+	ldr r0, [r0]\n\
+	adds r6, r7, r0\n\
+	ldr r0, [r6, #4]\n\
+	mov r2, r8\n\
+	lsls r1, r2, #3\n\
+	adds r0, r1, r0\n\
+  \n\
+	ldrh r3, [r0]\n\
+	mov sb, r3\n\
+	movs r3, #0xc0\n\
+	ldrb r2, [r0]\n\
+	movs r4, #4\n\
+	ldrsh r0, [r5, r4]\n\
+	adds r4, r2, r0\n\
+	mov sl, r1\n\
+	cmp r4, #0xbf\n\
+	ble _0804F8DE\n\
+	ldrh r0, [r5, #4]\n\
+	adds r3, r2, r0\n\
+	movs r0, #0xff\n\
+	ands r3, r0\n\
+_0804F8DE:\n\
+	cmp r4, #0xa0\n\
+	bgt _0804F8EA\n\
+	ldrh r0, [r5, #4]\n\
+	adds r3, r2, r0\n\
+	movs r1, #0xff\n\
+	ands r3, r1\n\
+_0804F8EA:\n\
+	ldr r2, _0804FA1C\n\
+	ldrb r1, [r6, #1]\n\
+	mov r4, r8\n\
+	subs r1, r1, r4\n\
+	lsls r1, r1, #3\n\
+	adds r1, r1, r2\n\
+	movs r0, #0xff\n\
+	lsls r0, r0, #8\n\
+	mov r6, sb\n\
+	ands r0, r6\n\
+	orrs r3, r0\n\
+	movs r4, #0\n\
+	strh r3, [r1]\n\
+	ldrb r1, [r5, #6]\n\
+	movs r3, #3\n\
+	adds r0, r3, #0\n\
+	ands r0, r1\n\
+	movs r1, #1\n\
+	add r1, r8\n\
+	mov sb, r1\n\
+	cmp r0, #1\n\
+	bne _0804F93C\n\
+	ldrb r0, [r5]\n\
+	lsls r0, r0, #2\n\
+	ldr r6, _0804FA18\n\
+	adds r0, r0, r6\n\
+	ldr r0, [r0]\n\
+	add r0, ip\n\
+	ldr r0, [r0]\n\
+	adds r0, r7, r0\n\
+	ldrb r0, [r0, #1]\n\
+	subs r0, r0, r1\n\
+	adds r0, #1\n\
+	lsls r0, r0, #3\n\
+	adds r0, r0, r2\n\
+	ldrh r1, [r0]\n\
+	movs r6, #0x80\n\
+	lsls r6, r6, #3\n\
+	adds r2, r6, #0\n\
+	orrs r1, r2\n\
+	strh r1, [r0]\n\
+_0804F93C:\n\
+	ldrb r1, [r5, #6]\n\
+	adds r0, r3, #0\n\
+	ands r0, r1\n\
+	ldrb r2, [r5]\n\
+	cmp r0, #2\n\
+	bne _0804F96C\n\
+	lsls r0, r2, #2\n\
+	ldr r1, _0804FA18\n\
+	adds r0, r0, r1\n\
+	ldr r0, [r0]\n\
+	add r0, ip\n\
+	ldr r0, [r0]\n\
+	adds r0, r7, r0\n\
+	ldrb r0, [r0, #1]\n\
+	subs r0, #1\n\
+	cmp r8, r0\n\
+	bne _0804F96C\n\
+	ldr r3, _0804FA1C\n\
+	ldrh r0, [r3, #8]\n\
+	movs r4, #0x80\n\
+	lsls r4, r4, #4\n\
+	adds r1, r4, #0\n\
+	orrs r0, r1\n\
+	strh r0, [r3, #8]\n\
+_0804F96C:\n\
+	lsls r0, r2, #2\n\
+	ldr r6, _0804FA18\n\
+	adds r0, r0, r6\n\
+	ldr r0, [r0]\n\
+	ldr r7, [sp]\n\
+	adds r0, r7, r0\n\
+	ldr r0, [r0]\n\
+	ldr r1, [sp, #4]\n\
+	adds r4, r1, r0\n\
+	ldr r0, [r4, #4]\n\
+	add r0, sl\n\
+	ldrh r6, [r0, #2]\n\
+	ldr r3, _0804FA20\n\
+	movs r2, #0xe0\n\
+	lsls r2, r2, #1\n\
+	adds r0, r3, #0\n\
+	ands r0, r6\n\
+	ldrh r7, [r5, #2]\n\
+	adds r1, r0, r7\n\
+	ldr r0, _0804FA24\n\
+	cmp r1, r0\n\
+	ble _0804F99C\n\
+	adds r2, r1, #0\n\
+	ands r2, r3\n\
+_0804F99C:\n\
+	cmp r1, #0xf0\n\
+	bgt _0804F9A4\n\
+	adds r2, r3, #0\n\
+	ands r2, r1\n\
+_0804F9A4:\n\
+	ldrb r1, [r4, #1]\n\
+	mov r0, sb\n\
+	subs r1, r1, r0\n\
+	adds r1, #1\n\
+	lsls r1, r1, #2\n\
+	adds r1, #1\n\
+	lsls r1, r1, #1\n\
+	ldr r3, _0804FA1C\n\
+	adds r1, r1, r3\n\
+	movs r0, #0xfe\n\
+	lsls r0, r0, #8\n\
+	ands r0, r6\n\
+	orrs r2, r0\n\
+	strh r2, [r1]\n\
+	ldrb r0, [r5]\n\
+	lsls r0, r0, #2\n\
+	ldr r4, _0804FA18\n\
+	adds r0, r0, r4\n\
+	ldr r0, [r0]\n\
+	ldr r6, [sp]\n\
+	adds r0, r6, r0\n\
+	ldr r0, [r0]\n\
+	ldr r7, [sp, #4]\n\
+	adds r0, r7, r0\n\
+	ldrb r1, [r0, #1]\n\
+	mov r2, sb\n\
+	subs r1, r1, r2\n\
+	adds r1, #1\n\
+	lsls r1, r1, #2\n\
+	adds r1, #2\n\
+	lsls r1, r1, #1\n\
+	adds r1, r1, r3\n\
+	ldr r0, [r0, #4]\n\
+	add r0, sl\n\
+	ldrh r0, [r0, #4]\n\
+	strh r0, [r1]\n\
+	mov r8, sb\n\
+	ldrb r2, [r5]\n\
+	lsls r0, r2, #2\n\
+	adds r0, r0, r4\n\
+	ldr r0, [r0]\n\
+	mov ip, r6\n\
+	add r0, ip\n\
+	ldr r0, [r0]\n\
+	ldr r7, [sp, #4]\n\
+	adds r0, r7, r0\n\
+_0804FA00:\n\
+	ldrb r0, [r0, #1]\n\
+	cmp r8, r0\n\
+	bge _0804FA08\n\
+	b _0804F8AC\n\
+_0804FA08:\n\
+	add sp, #8\n\
+	pop {r3, r4, r5}\n\
+	mov r8, r3\n\
+	mov sb, r4\n\
+	mov sl, r5\n\
+	pop {r4, r5, r6, r7}\n\
+	pop {r0}\n\
+	bx r0\n\
+	.align 2, 0\n\
+_0804FA18: .4byte 0x08FC4618\n\
+_0804FA1C: .4byte gOamBuffer\n\
+_0804FA20: .4byte 0x000001FF\n\
+_0804FA24: .4byte 0x000001BF");
+}
+
+// overworld effect sprite tiles and pal (obtaining god cards etc.)
+void sub_804FA28 (struct GfxEffect* arg0) {
+  int i, j;
+  unsigned char* src;
+  unsigned char* dest;
+
+  LZ77UnCompWram(g8FC4440[arg0->unk0], gSharedMem + 0x400);
+
+  src = gSharedMem + 0x400;
+  dest = gBgVram.cbb5;
+  for (i = 0; i < 16; dest += 0x200, i++)
+    for (j = 0; j < 512; j++)
+      *dest++ = *src++;
+
+  src = gSharedMem + 0x2400;
+  dest = gBgVram.cbb5 + 0x200;
+  for (i = 0; i < 12; dest += 0x200, i++)
+    for (j = 0; j < 512; j++)
+      *dest++ = *src++;
+
+  CpuCopy16(g8FC452C[arg0->unk0], gPaletteBuffer + 0x170, 0xA0);
+  if (CheckFlag(0xF3))
+    sub_8044E50(gPaletteBuffer, 0x170, 0x1BF);
+  WaitForVBlank();
+  sub_804F2DC(); // load tiles, palette and blending regs
+}
+
+
+// sub_804FA28 doesn't match if this function is put above it
+inline void sub_805176C (struct GfxEffect* arg0, u32 arg1) {
+  int i, j;
+  for (i = 0; g8FC4618[arg0->unk0][arg1][i].unk0; i++) {
+    sub_804F850(arg0, arg1, i);
+    for (j = 0; j < g8FC4618[arg0->unk0][arg1][i].unk0; j++) {
+      WaitForVBlank();
+      LoadOam();
+    }
+  }
+}
+
+inline void sub_8051814 (struct GfxEffect* arg0) {
+  int i;
+  for (i = 0; g8FC4618[arg0->unk0][i]; i++) {
+    sub_805176C(arg0, i);
+  }
+}
+
+NAKED
+inline void sub_80518E4 (void) {
+  asm_unified("push {r4, r5, lr}\n\
+	ldr r2, _0805191C @ =0x02018400\n\
+	ldrb r1, [r2, #1]\n\
+	movs r3, #0xd\n\
+	rsbs r3, r3, #0\n\
+	adds r0, r3, #0\n\
+	ands r0, r1\n\
+	movs r1, #4\n\
+	orrs r0, r1\n\
+	strb r0, [r2, #1]\n\
+	movs r4, #0x70\n\
+	adds r5, r3, #0\n\
+	movs r3, #4\n\
+	ldr r0, _08051920 @ =0x00000E01\n\
+	adds r2, r2, r0\n\
+_08051902:\n\
+	ldrb r1, [r2]\n\
+	adds r0, r5, #0\n\
+	ands r0, r1\n\
+	orrs r0, r3\n\
+	strb r0, [r2]\n\
+	adds r2, #0x20\n\
+	adds r4, #1\n\
+	cmp r4, #0x7f\n\
+	ble _08051902\n\
+	pop {r4, r5}\n\
+	pop {r0}\n\
+	bx r0\n\
+	.align 2, 0\n\
+_0805191C: .4byte 0x02018400\n\
+_08051920: .4byte 0x00000E01");
+}
+
+/*
+inline void sub_80518E4 (void) {
+  int i;
+  gOamBuffer[0].objMode = 1;
+  // UB and BUG: array access out of bounds
+  for (i = 112; i < 128; i++)
+    gOamBuffer[i * 4].objMode = 1;
+}
+
+inline void sub_8051924 (void) {
+  int i;
+  gOamBuffer[0].objMode = 0;
+  // UB and BUG: array access out of bounds
+  for (i = 112; i < 128; i++)
+    gOamBuffer[i * 4].objMode = 0;
+}*/
+
+NAKED
+inline void sub_8051924 (void) {
+  asm_unified("\n\
+	push {r4, lr}\n\
+	ldr r1, _08051950 @ =0x02018400\n\
+	ldrb r2, [r1, #1]\n\
+	movs r3, #0xd\n\
+	rsbs r3, r3, #0\n\
+	adds r0, r3, #0\n\
+	ands r0, r2\n\
+	strb r0, [r1, #1]\n\
+	movs r4, #0x70\n\
+	ldr r0, _08051954 @ =0x00000E01\n\
+	adds r2, r1, r0\n\
+_0805193A:\n\
+	ldrb r1, [r2]\n\
+	adds r0, r3, #0\n\
+	ands r0, r1\n\
+	strb r0, [r2]\n\
+	adds r2, #0x20\n\
+	adds r4, #1\n\
+	cmp r4, #0x7f\n\
+	ble _0805193A\n\
+	pop {r4}\n\
+	pop {r0}\n\
+	bx r0\n\
+	.align 2, 0\n\
+_08051950: .4byte 0x02018400\n\
+_08051954: .4byte 0x00000E01");
+}
+
+// obtaining god card (glowing orb animation)
+void sub_804FB04 (struct GfxEffect* arg0) {
+  int i, j, k;
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 1;
+  gBLDCNT = 0;
+  sub_804FA28(arg0); //load effect gfx (tiles, palette, blending reg)
+  sub_8051584(); //copy palette buffer to shared memory
+  for (i = 0; g8FC4618[arg0->unk0][i]; i++) {
+    for (j = 0; g8FC4618[arg0->unk0][i][j].unk0; j++) {
+      sub_804F850(arg0, i, j);
+      sub_80515A0(); //copy shared memory to palette buffer
+      sub_8044EC8(gPaletteBuffer, 0, 0x16F, g8E0E0D2[j]);
+      sub_8044EC8(gPaletteBuffer, 0x1C0, 0x1FF, g8E0E0D2[j]);
+      sub_8044F80(gPaletteBuffer, 0, 0x1FF, g8E0E0AC[j]);
+      for (k = 0; k < g8FC4618[arg0->unk0][i][j].unk0; k++) {
+        WaitForVBlank();
+        LoadOam();
+        LoadPalettes();
+      }
+    }
+  }
+  sub_8051740();
+}
+//big god monster appearance
+void sub_804FC84 (struct GfxEffect* arg0) {
+  int i, k;
+
+  arg0->unk6bit0 = 1;
+  gBLDCNT = 0x2F00;
+  gBLDALPHA = gE0E0F8[0] << 8 | 0x10;
+  sub_804FA28(arg0);
+  i = 0;
+  if (gE0E146[arg0->unk0] != -1)
+    PlayMusic(gE0E146[arg0->unk0]);
+  for (; gE0DB14[i + 2] != - 1; i += 3) {
+    arg0->unk2 = gE0DB14[i];
+    arg0->unk4 = gE0DB14[i + 1];
+    sub_805176C(arg0, arg0->unk1);
+    gBLDALPHA = gE0E0F8[i / 3] << 8 | 0x10;
+    for (k = gE0DB14[i + 2]; k > 0; k--) {
+      WaitForVBlank();
+      LoadBlendingRegs();
+    }
+  }
+  sub_8051740();
+
+  for (i = 0; g8E0E11C[i] >= 0; i++) {
+    sub_80515A0();
+    sub_8044F80(gPaletteBuffer, 0, 0x1FF, g8E0E11C[i]);
+    WaitForVBlank();
+    LoadPalettes();
+  }
+}
+
+void sub_804FE78 (struct GfxEffect* arg0) {
+  int i, j;
+
+  arg0->unk6bit0 = 0;
+  gBLDCNT = 0;
+  sub_804FA28(arg0);
+  for (i = 0; g8E0DFC0[arg0->unk0][i][2] != - 1; i++) {
+    arg0->unk2 = g8E0DFC0[arg0->unk0][i][0];
+    arg0->unk4 = g8E0DFC0[arg0->unk0][i][1];
+    sub_8051814(arg0);
+    if (g8E0E1D2[arg0->unk0] == i)
+      PlayMusic(MUSIC_334);
+    for (j = g8E0DFC0[arg0->unk0][i][2]; j > 0; j--)
+      WaitForVBlank();
+  }
+}
+
+void sub_8050028 (struct GfxEffect* arg0) {
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 0;
+  gBLDCNT = 0;
+  sub_804FA28(arg0);
+  sub_8051814(arg0);
+}
+
+void sub_8050114 (struct GfxEffect* arg0) {
+  int i, j;
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 0;
+  gBLDCNT = 0;
+  sub_804FA28(arg0);
+  for (i = 0; g8FC4618[arg0->unk0][arg0->unk1][i].unk0; i++) {
+    sub_80516F8();
+    sub_804F850(arg0, arg0->unk1, i);
+    if (g8E0E1D2[arg0->unk0] == i)
+      PlayMusic(MUSIC_334);
+    for (j = 0; j < g8FC4618[arg0->unk0][arg0->unk1][i].unk0; j++) {
+      WaitForVBlank();
+      LoadOam();
+    }
+  }
+  sub_8051740();
+}
+
+void sub_805022C (struct GfxEffect* arg0) {
+  int i, j;
+  unsigned char ii;
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 0;
+  gBLDCNT = 0;
+  sub_804FA28(arg0);
+  sub_8051584();
+  for (i = 0; g8FC4618[arg0->unk0][arg0->unk1][i].unk0; i++) {
+    sub_804F850(arg0, arg0->unk1, i);
+    if (g8E0E1D2[arg0->unk0] == i)
+      PlayMusic(MUSIC_334);
+    if (g8E0E20E[i] < 6) {
+      sub_80515A0();
+      sub_8044EC8(gPaletteBuffer, 0, 0x16F, g8E0E20E[i]);
+      sub_8044EC8(gPaletteBuffer, 0x1C0, 0x1FF, g8E0E20E[i]);
+    }
+    WaitForVBlank();
+    LoadOam();
+    LoadPalettes();
+    j = 1;
+    while (g8FC4618[arg0->unk0][arg0->unk1][i].unk0 > j++)
+      WaitForVBlank();
+  }
+  for (i = 0; g8E0E284[i] >= 0; i++) {
+    sub_80515A0();
+    sub_8044EC8(gPaletteBuffer, 0, 0x16F, g8E0E284[i]);
+    sub_8044EC8(gPaletteBuffer, 0x1C0, 0x1FF, g8E0E284[i]);
+    WaitForVBlank();
+    LoadPalettes();
+  }
+  sub_8051740();
+}
+
+void sub_80503D8 (struct GfxEffect* arg0) {
+  int i, j, k;
+  int sb;
+  unsigned char ii;
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 0;
+  gBLDCNT = 0;
+  sub_804FA28(arg0);
+  sub_8051584();
+  sb = 0;
+  for (i = 0; g8FC4618[arg0->unk0][i]; i++) {
+    for (j = 0; g8FC4618[arg0->unk0][i][j].unk0; j++) {
+      sub_804F850(arg0, i, j);
+      for (k = 0; k < g8FC4618[arg0->unk0][i][j].unk0; k++) {
+        sub_80515A0();
+        if (j > 9) {
+          sb += 2;
+          if (sb > 16)
+            sb = 16;
+          sub_8044F80(gPaletteBuffer, 0, 0x1FF, sb);
+        }
+        WaitForVBlank();
+        LoadOam();
+        LoadPalettes();
+      }
+    }
+  }
+  sub_8051740();
+  sub_80515F4();
+}
+
+void sub_8050584 (struct GfxEffect* arg0) {
+  int i, j, k;
+  int sl;
+  unsigned char ii;
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 0;
+  gBLDCNT = 0;
+  sub_804FA28(arg0);
+  sub_8051584();
+
+  for (i = 0, sl = 0; g8FC4618[arg0->unk0][i]; i++) {
+    for (j = 0; g8FC4618[arg0->unk0][i][j].unk0; j++) {
+      sub_804F850(arg0, i, j);
+      sub_80515A0();
+      sub_8044EC8(gPaletteBuffer, 0, 0x16F, g8E0E20E[j]);
+      sub_8044EC8(gPaletteBuffer, 0x1C0, 0x1FF, g8E0E20E[j]);
+      if (j > 10) {
+        sl += 3;
+        if (sl > 16)
+          sl = 16;
+        sub_8044F80(gPaletteBuffer, 0, 0x1FF, sl);
+      }
+      for (k = 0; k < g8FC4618[arg0->unk0][i][j].unk0; k++) {
+        WaitForVBlank();
+        LoadOam();
+        LoadPalettes();
+      }
+    }
+  }
+  sub_8051740();
+  sub_80515F4();
+}
+
+void sub_8050748 (struct GfxEffect* arg0) {
+  int i, r5, r4;
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 2;
+  gBLDCNT = 0;
+  sub_804FA28(arg0);
+  sub_8051584();
+  sub_80515BC();
+  sub_805171C();
+  WaitForVBlank();
+  LoadOam();
+  for (i = 0; g8E0E2A0[i] >= 0; i++) {
+    sub_8044EC8(gPaletteBuffer, 1, 0x19F, g8E0E2A0[i]);
+    sub_8044EC8(gPaletteBuffer, 0x1C0, 0x1FF, g8E0E2A0[i]);
+    gPaletteBuffer[0] = 0xFFFF;
+    WaitForVBlank();
+    LoadPalettes();
+  }
+  REG_WINOUT = 0x3F;
+  REG_DISPCNT = DISPCNT_BG_ALL_ON | DISPCNT_OBJ_ON | DISPCNT_OBJWIN_ON;
+  sub_804F850(arg0, 0, 0);
+  WaitForVBlank();
+  LoadOam();
+  for (i = 0; g8FC4618[arg0->unk0][i]; i++) {
+    for (r5 = 0; g8E0E295[r5 / 29] >= 0; r5++) {
+      sub_804F78C(r5);
+      for (r4 = 0; r4 <= g8E0E295[r5 / 29]; r4++) {
+        WaitForVBlank();
+        LoadPalettes();
+        LoadOam();
+      }
+    }
+  }
+  sub_80515D8();
+  sub_8051740();
+  REG_DISPCNT = DISPCNT_BG_ALL_ON | DISPCNT_OBJ_ON;
+  for (i = 0; g8E0E2B2[i] >= 0; i++) {
+    sub_80515A0();
+    sub_8044EC8(gPaletteBuffer, 0, 0x16F, g8E0E2B2[i]);
+    sub_8044EC8(gPaletteBuffer, 0x1C0, 0x1FF, g8E0E2B2[i]);
+    WaitForVBlank();
+    LoadPalettes();
+  }
+}
+
+void sub_8050978 (struct GfxEffect* arg0) {
+  int i, j, k;
+  unsigned char jj;
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 0;
+  gBLDCNT = 0;
+  sub_804FA28(arg0);
+  sub_8051584();
+  for (i = 0; g8FC4618[arg0->unk0][i]; i++) {
+    for (j = 0; g8FC4618[arg0->unk0][i][j].unk0; j++) {
+      sub_804F850(arg0, i, j);
+      sub_80515A0();
+      sub_8044EC8(gPaletteBuffer, 0, 0x13F, g8E0E20E[j]);
+      sub_8044EC8(gPaletteBuffer, 0x150, 0x16F, g8E0E20E[j]);
+      sub_8044EC8(gPaletteBuffer, 0x1C0, 0x1FF, g8E0E20E[j]);
+      for (k = 0; k < g8FC4618[arg0->unk0][i][j].unk0; k++) {
+        WaitForVBlank();
+        LoadOam();
+        LoadPalettes();
+      }
+    }
+  }
+  for (i = 0; g8E0E284[i] >= 0; i++) {
+    sub_80515A0();
+    sub_8044EC8(gPaletteBuffer, 0, 0x13F, g8E0E284[i]);
+    sub_8044EC8(gPaletteBuffer, 0x150, 0x16F, g8E0E284[i]);
+    sub_8044EC8(gPaletteBuffer, 0x1C0, 0x1FF, g8E0E284[i]);
+    WaitForVBlank();
+    LoadPalettes();
+  }
+  sub_8051740();
+}
+
+void sub_8050B50 (struct GfxEffect* arg0) {
+  int sb;
+  int i, j, k;
+  unsigned char jj;
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 0;
+  gBLDCNT = 0;
+  sub_804FA28(arg0);
+  sub_8051584();
+  sb = 0;
+  for (i = 0; g8FC4618[arg0->unk0][i]; i++) {
+    for (j = 0; g8FC4618[arg0->unk0][i][j].unk0; j++) {
+      sub_804F850(arg0, i, j);
+      for (k = 0; k < g8FC4618[arg0->unk0][i][j].unk0; k++) {
+        sub_80515A0();
+        if (j > 3) {
+          sb++;
+          if (sb > 16)
+            sb = 16;
+          sub_8044F80(gPaletteBuffer, 0, 0x1FF, sb);
+        }
+        WaitForVBlank();
+        LoadOam();
+        LoadPalettes();
+      }
+    }
+  }
+  sub_8051740();
+}
+
+void sub_8050CC0 (struct GfxEffect* arg0) {
+  int r8;
+  int i, j, k;
+  unsigned char jj;
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 0;
+  gBLDCNT = 0xBF;
+  gBLDY = 0;
+  sub_804FA28(arg0);
+  sub_8051584();
+  r8 = 0;
+  for (j = 0; g8FC4618[arg0->unk0][arg0->unk1][j].unk0; j++) {
+    sub_804F850(arg0, arg0->unk1, j);
+    for (k = 0; k < g8FC4618[arg0->unk0][arg0->unk1][j].unk0; k++) {
+      gBLDY = 0;
+      if (k == 0 && g8E0E2C4[j] == 1) {
+        gBLDY = 8;
+        WaitForVBlank();
+        LoadBlendingRegs();
+        LoadOam();
+        LoadPalettes();
+        sub_80515A0();
+        sub_8044EC8(gPaletteBuffer, 0, 0x16F, g8E0E20E[j]);
+        sub_8044EC8(gPaletteBuffer, 0x1C0, 0x1FF, g8E0E20E[j]);
+      }
+      else if (g8E0E2C4[j] > 2) {
+        r8 += 2;
+        if (r8 > 16)
+          r8 = 16;
+        gBLDY = r8;
+        WaitForVBlank();
+        LoadBlendingRegs();
+        LoadOam();
+        LoadPalettes();
+      }
+      else {
+        WaitForVBlank();
+        LoadBlendingRegs();
+        LoadOam();
+        LoadPalettes();
+      }
+    }
+  }
+  sub_8051740();
+  for (j = 0; g8E0E091[j] >= 0; j++) {
+    sub_80515A0();
+    sub_8044F80(gPaletteBuffer, 0, 0x1FF, g8E0E091[j]);
+    WaitForVBlank();
+    LoadPalettes();
+  }
+}
+
+void sub_8050EE0 (struct GfxEffect* arg0) {
+  int i;
+  unsigned char jj;
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 0;
+  gBLDCNT = 0;
+  sub_8051584();
+
+  for (i = 0; g8E0E2FF[i] >= 0; i++) {
+    sub_80515A0();
+    sub_8044EC8(gPaletteBuffer, 0, 0x1FF, g8E0E2FF[i]);
+    WaitForVBlank();
+    LoadPalettes();
+  }
+  for (i = 0; i < 6; i++) {
+    LZ77UnCompWram(g8E0E324[i], gBgVram.cbb0 + g8E0E36C[i]);
+    CpuCopy16(g8E0E33C[i], gBgVram.cbb0 + g8E0E372[i] * 2, 0x800); /*use u16 ptr arithmetic instead*/
+    CpuCopy16(g8E0E354[i], gPaletteBuffer + g8E0E37E[i], 0x1E0);
+    WaitForVBlank();
+    sub_804EC4C();
+    sub_805787C(0x80);
+  }
+  for (i = 0; g8E0E311[i] >= 0; i++) {
+    sub_80515A0();
+    sub_8044EC8(gPaletteBuffer, 0, 0x1FF, g8E0E311[i]);
+    WaitForVBlank();
+    LoadPalettes();
+  }
+}
+
+void sub_8051010 (struct GfxEffect* arg0) {
+  sub_8051740();
+
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 1;
+  gBLDCNT = 0x2F00;
+  gBLDALPHA = 0x10;
+  sub_804FA28(arg0);
+  sub_8051584();
+  sub_8051648();
+
+  sub_804F850(arg0, arg0->unk1, 0);
+  WaitForVBlank();
+  LoadOam();
+  sub_805787C(8);
+  sub_80516B0(0, 0);
+  sub_8051740();
+}
+
+void sub_8051144 (struct GfxEffect* arg0) {
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 1;
+  gBLDCNT = 0x2F00;
+  gBLDALPHA = 0x10;
+  sub_804FA28(arg0);
+  sub_804F850(arg0, arg0->unk1, 0);
+  WaitForVBlank();
+  LoadOam();
+  sub_805787C(8);
+  sub_80516B0(0, 0);
+  sub_8051740();
+}
+
+void sub_80511EC (struct GfxEffect* arg0) {
+  arg0->unk2 = 0;
+  arg0->unk4 = 0;
+  arg0->unk6bit0 = 1;
+  gBLDCNT = 0x2F00;
+  gBLDALPHA = 0x10;
+  sub_804FA28(arg0);
+  sub_804F850(arg0, arg0->unk1, 0);
+  WaitForVBlank();
+  LoadOam();
+  sub_805787C(32);
+  sub_80516B0(0, 1);
+  sub_8051740();
+  sub_80515F4();
+}
+
+void sub_80512E0 (struct ScriptCtx* scriptCtx, unsigned char effect) {
+  struct GfxEffect unk1234;
+  unk1234.unk0 = effect;
+  switch (g8E0E384[unk1234.unk0]) { //effect type?
+    case 1: // obtaining/reviving/unlocking god card (glowing orb animation + big god monster appearance)
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      sub_804FB04(&unk1234); //glowing orb animation
+      unk1234.unk0 = effect + 1; // (advance to second scene?)
+      unk1234.unk1 = 0;
+      sub_804FC84(&unk1234); //big god monster appearance
+      break;
+    case 2: // mokuba helicopter?
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      sub_8050028(&unk1234);
+      break;
+    case 3: //slide horizontally?
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      sub_804FE78(&unk1234);
+      break;
+    case 4: //slide vertically?
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      unk1234.unk1 = 0;
+      sub_8050114(&unk1234);
+      break;
+    case 5: //monster attack?
+      scriptCtx->unk86 = 0;
+      unk1234.unk1 = 0;
+      sub_8053404(scriptCtx);
+      sub_805022C(&unk1234);
+      break;
+    case 6:
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      sub_8050978(&unk1234);
+      break;
+    case 7:
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      sub_8050748(&unk1234);
+      break;
+    case 8:
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      sub_8050584(&unk1234);
+      break;
+    case 9:
+      scriptCtx->unk86 = 0;
+      unk1234.unk1 = 0;
+      sub_8053404(scriptCtx);
+      sub_8050CC0(&unk1234);
+      break;
+    case 10:
+      scriptCtx->unk86 = 0;
+      unk1234.unk0 = 4;
+      sub_8053404(scriptCtx);
+      sub_804FB04(&unk1234);
+      unk1234.unk0 = 41;
+      unk1234.unk1 = 0;
+      sub_804FC84(&unk1234);
+      break;
+    case 11: //fusion
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      sub_80503D8(&unk1234);
+      break;
+    case 12:
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      sub_8050B50(&unk1234);
+      break;
+    case 13:
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      sub_8050EE0(&unk1234);
+      break;
+    case 14: // exodia attack
+      scriptCtx->unk86 = 0;
+      unk1234.unk1 = 1;
+      sub_8053404(scriptCtx);
+      sub_805022C(&unk1234);
+      break;
+    case 15:
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      unk1234.unk1 = 1;
+      sub_8051010(&unk1234);
+      unk1234.unk0 = 45;
+      unk1234.unk1 = 0;
+      sub_8051144(&unk1234);
+      unk1234.unk0 = 46;
+      unk1234.unk1 = 1;
+      sub_80511EC(&unk1234);
+      break;
+    case 16:
+      scriptCtx->unk86 = 0;
+      unk1234.unk1 = 2;
+      sub_8053404(scriptCtx);
+      sub_805022C(&unk1234);
+      break;
+    case 17:
+      scriptCtx->unk86 = 0;
+      sub_8053404(scriptCtx);
+      unk1234.unk1 = 1;
+      sub_8051010(&unk1234);
+      unk1234.unk0 = 22;
+      unk1234.unk1 = 0;
+      sub_80511EC(&unk1234);
+      break;
+  }
+}
+
+NAKED
+u32 sub_8051520_inline (struct GfxEffect* arg0, u16 arg1) {
+  asm_unified("\n\
+  lsls r1, r1, #0x10\n\
+	movs r2, #0xe0\n\
+	lsls r2, r2, #1\n\
+	lsrs r1, r1, #0x10\n\
+	ldrh r0, [r0, #2]\n\
+	adds r1, r1, r0\n\
+	ldr r0, _0805154C @ =0x000001BF\n\
+	cmp r1, r0\n\
+	ble _0805153A\n\
+	adds r2, #0x3f\n\
+	adds r0, r2, #0\n\
+	adds r2, r1, #0\n\
+	ands r2, r0\n\
+_0805153A:\n\
+	cmp r1, #0xf0\n\
+	bgt _08051546\n\
+	ldr r2, _08051550 @ =0x000001FF\n\
+	adds r0, r2, #0\n\
+	adds r2, r0, #0\n\
+	ands r2, r1\n\
+_08051546:\n\
+	adds r0, r2, #0\n\
+	bx lr\n\
+	.align 2, 0\n\
+_0805154C: .4byte 0x000001BF\n\
+_08051550: .4byte 0x000001FF");
+}
