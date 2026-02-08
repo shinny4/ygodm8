@@ -332,16 +332,16 @@ SECTIONS
         src/spell_effects.o(.text)
 
 
-        /* move to overworld directory */
-        src/overworld.o(.text);
-        src/overworld_gfx_effects.o(.text);
-        src/code_8051958.o(.text);
-        src/map_transition.o(.text);
-        src/script.o(.text); /*TODO: rename to script_main?*/
-        src/script_commands1.o(.text);
-        src/script_commands2.o(.text);
-
-        src/flag.o(.text);
+        
+        src/overworld/overworld.o(.text);
+        src/overworld/overworld_gfx_effects.o(.text);
+        src/overworld/code_8051958.o(.text);
+        src/overworld/map_transition.o(.text);
+        src/overworld/script.o(.text); /*TODO: rename to script_main?*/
+        src/overworld/script_commands1.o(.text);
+        src/overworld/script_commands2.o(.text);
+        
+        src/flag.o(.text); /*TODO: move to overworld dir?*/
 
         src/spell_effects_util.o(.text); /*equip effects*/
         src/card_passwords.o(.text); /*card_password*/
@@ -418,10 +418,10 @@ SECTIONS
         src/code_8043EF4.o(.data);
         src/tribute.o(.data);
 
-        . = ALIGN(4); src/overworld.o(.data);
-        src/overworld_gfx_effects.o(.data);
+        . = ALIGN(4); src/overworld/overworld.o(.data);
+        src/overworld/overworld_gfx_effects.o(.data);
         data/data5.o(.data3);
-        src/code_8051958.o(.data);
+        src/overworld/code_8051958.o(.data);
         data/data5.o(.data3_2);
         src/card_passwords.o(.rodata);
         data/data5.o(.data4);
