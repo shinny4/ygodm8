@@ -18,24 +18,108 @@ static s8 sub_8051DAC (u8, u8, u8);
 static void sub_8052108 (u8*, u8*);
 
 
-CONST_DATA enum Direction sDirectionFacePlayer[] = {
+static CONST_DATA enum Direction sDirectionFacePlayer[] = {
   [DIRECTION_DOWN] = DIRECTION_UP,
   [DIRECTION_LEFT] = DIRECTION_RIGHT,
   [DIRECTION_UP] = DIRECTION_DOWN,
   [DIRECTION_RIGHT] = DIRECTION_LEFT
 };
 
-extern s16 gHorizontalDisplacements[];
-extern u16 g8E0E3CC[];
-extern u16 g8E0E404[];
-extern u16 g8E0E416[];
-extern u16* g20244AC;
-extern u16 g8E0E3D4[3][4];
-extern u16 g8E0E3EC[3][4];
-extern u16 g8E0E428[3][9];
-extern u16 g8E0E45E[3][9];
-extern u16 g8E0E494[][3];
+static CONST_DATA signed short gHorizontalDisplacements[] = {
+  [DIRECTION_DOWN] = 0,
+  [DIRECTION_LEFT] = -1,
+  [DIRECTION_UP] = 0,
+  [DIRECTION_RIGHT] = 1
+};
+
+static CONST_DATA signed short g8E0E3CC[] = {
+  [DIRECTION_DOWN] = 1,
+  [DIRECTION_LEFT] = 0,
+  [DIRECTION_UP] = -1,
+  [DIRECTION_RIGHT] = 0
+};
+
+static CONST_DATA signed short g8E0E3D4[3][4] = {
+  {
+    [DIRECTION_DOWN] = 0,
+    [DIRECTION_LEFT] = 0,
+    [DIRECTION_UP] = 0,
+    [DIRECTION_RIGHT] = 0
+  },
+  {
+    [DIRECTION_DOWN] = 1,
+    [DIRECTION_LEFT] = 0,
+    [DIRECTION_UP] = -1,
+    [DIRECTION_RIGHT] = 0
+  },
+  {
+    [DIRECTION_DOWN] = -1,
+    [DIRECTION_LEFT] = 0,
+    [DIRECTION_UP] = 1,
+    [DIRECTION_RIGHT] = 0
+  }
+};
+
+static CONST_DATA signed short g8E0E3EC[3][4] = {
+  {
+    [DIRECTION_DOWN] = 0,
+    [DIRECTION_LEFT] = 0,
+    [DIRECTION_UP] = 0,
+    [DIRECTION_RIGHT] = 0
+  },
+  {
+    [DIRECTION_DOWN] = 0,
+    [DIRECTION_LEFT] = 1,
+    [DIRECTION_UP] = 0,
+    [DIRECTION_RIGHT] = -1
+  },
+  {
+    [DIRECTION_DOWN] = 0,
+    [DIRECTION_LEFT] = -1,
+    [DIRECTION_UP] = 0,
+    [DIRECTION_RIGHT] = 1
+  }
+};
+
+static CONST_DATA signed short g8E0E404[] = {
+  [DIRECTION_DOWN] = -1,
+  [DIRECTION_LEFT] = 0,
+  [DIRECTION_UP] = 1,
+  [DIRECTION_RIGHT] = -1
+};
+
+//unused?
+static signed short sE0E40C[] = {
+  0, 1, -1, 0, 1
+};
+
+static CONST_DATA signed short g8E0E416[] = {
+  [DIRECTION_DOWN] = -1,
+  [DIRECTION_LEFT] = -1,
+  [DIRECTION_UP] = -1,
+  [DIRECTION_RIGHT] = 0
+};
+/*
+//unused?
+static signed short sE0E41E[] = {
+  0, 0, 1, 1, 1
+};
+*/
+extern s16 g8E0E428[3][9];
+extern s16 g8E0E45E[3][9];
+
+extern struct {
+  unsigned short unk0[4];
+  unsigned char filler8[0xA];
+  unsigned short unk12[4];
+  unsigned char filler1A[0xA];
+  unsigned short unk24[4];
+} g8E0E494;
+
 extern struct OamData gOamBuffer[];
+
+extern u16* g20244AC;
+
 void sub_804EEAC (struct OamData* arg0, u16 arg1);
 void sub_804EE84 (struct OamData* arg0, int arg1, int arg2);
 void sub_805236C (void);
@@ -255,17 +339,17 @@ void sub_8051C14 (u8 obj, u8 direction, s16 *displacement) {
       break;
     case 1:
       gOverworld.objects[obj].motionState = MOTION_WALKING;
-      gOverworld.objects[obj].direction = g8E0E494[0][direction];
+      gOverworld.objects[obj].direction = g8E0E494.unk0[direction];
       break;
     case 2:
       gOverworld.objects[obj].motionState = MOTION_WALKING;
-      gOverworld.objects[obj].direction = g8E0E494[3][direction];
+      gOverworld.objects[obj].direction = g8E0E494.unk12[direction];
       displacement[0] += g8E0E428[1][direction];
       displacement[1] += g8E0E45E[1][direction];
       break;
     case 3:
       gOverworld.objects[obj].motionState = MOTION_WALKING;
-      gOverworld.objects[obj].direction = g8E0E494[6][direction];
+      gOverworld.objects[obj].direction = g8E0E494.unk24[direction];
       displacement[0] += g8E0E428[2][direction];
       displacement[1] += g8E0E45E[2][direction];
       break;
@@ -559,7 +643,11 @@ void TryWalking (u8 direction) {
 void TryRunning (u8 direction) {
   sub_8051D20(0, direction);
   sub_805236C();
-  if (gOverworld.unk240 != 2) {
+  
+  // TODO:
+  // did they forget to check OVERWORLD_FLAG_WORLD_MAP_TRANSITION?
+  // (it's probably inconsequential anyway)
+  if (gOverworld.flags != OVERWORLD_FLAG_MAP_TRANSITION) {
     sub_8051D20(0, direction);
     sub_805236C();
   }

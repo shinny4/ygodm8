@@ -1,6 +1,6 @@
     .section .data
-    .global gUnk8E11790 //overworld sprite pointers
-gUnk8E11790:
+    .global gOverworldEntitySprites //overworld sprite pointers
+gOverworldEntitySprites:
     .incbin "baserom.gba", 0xE11790, 0x728
 
 

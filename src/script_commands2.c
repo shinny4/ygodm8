@@ -1096,25 +1096,25 @@ inline void sub_80551B8 (void) {
   u16 r8, r2;
 
   switch (gOverworld.map.id) {
-    case 41:
+    case LOCATION_PEGASUS_ISLAND_CABLE_CAR_INSIDE:
       if (CheckFlag(0xf6)) {
         r5 = 0;
         if (!CheckFlag(0xb4))
           r5 = 2;
       }
       break;
-    case 16:
-    case 17:
-    case 18:
+    case LOCATION_DUEL_EXPRESS_CARRIAGE_RIGHT:
+    case LOCATION_DUEL_EXPRESS_CARRIAGE_MIDDLE:
+    case LOCATION_DUEL_EXPRESS_CARRIAGE_LEFT:
       if (CheckFlag(0xf7))
         r5 = 1;
       break;
-    case 50:
-    case 51:
-    case 52:
-    case 53:
-    case 54:
-    case 55:
+    case LOCATION_PEGASUS_CASTLE_OUTSIDE:
+    case LOCATION_PEGASUS_CASTLE_HALLWAY:
+    case LOCATION_PEGASUS_CASTLE_LEFT_ROOM:
+    case LOCATION_PEGASUS_CASTLE_RIGHT_ROOM:
+    case LOCATION_PEGASUS_CASTLE_DUEL_ROOM:
+    case LOCATION_PEGASUS_CASTLE_RESHEF_TABLET_ROOM:
       if (CheckFlag(0xf7))
         r5 = 3;
       break;

@@ -512,7 +512,13 @@ gE0CFDC:
 
 
     .section .data3
-    .incbin "baserom.gba", 0xE0E384, 0x19C8
+    .incbin "baserom.gba", 0xE0E384, 0x3C
+
+    .section .data3_2
+    .incbin "baserom.gba", 0xE0E41E, 0x192E
+
+    //E0FD4C
+
 
     .section .data4
     .global gE1165C

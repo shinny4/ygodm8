@@ -129,7 +129,9 @@ static void sub_80526D0 (struct ScriptCtx* scriptCtx) {
     }
     sub_804F218();
   }
-  if (gOverworld.unk240 & 2)
+  
+  // sub_8053334 inline
+  if (gOverworld.flags & OVERWORLD_FLAG_MAP_TRANSITION)
     return;
   PlayOverworldMusic();
   scriptCtx->portraitId = 0;
@@ -368,7 +370,7 @@ static void sub_80527E8(struct ScriptCtx *script)
             script->unk86 = 0;
             script->pointer += 2;
             break;
-        case '2':
+        case '2': // music fade out?
             sub_8035038(script->currentScript.start[script->pointer + 1]);
             script->pointer += 2;
             break;
@@ -387,7 +389,7 @@ static void sub_80527E8(struct ScriptCtx *script)
             script->pointer += 3;
             break;
         case '5': //warp to another map (arg0 = map, arg1 = state, arg2 = connection, arg3 unused)
-            gOverworld.unk240 |= 2;
+            gOverworld.flags |= OVERWORLD_FLAG_MAP_TRANSITION;
             sub_80523EC(script->currentScript.start[script->pointer + 1],
                         script->currentScript.start[script->pointer + 2],
                         script->currentScript.start[script->pointer + 3]);
@@ -635,9 +637,9 @@ _08053314:\n\
 _08053330: .4byte gPlayerName");
 }
 
-//unused?
+//unused (most likely inline, as the same exact code is part of sub_80526D0)
 static void sub_8053334 (struct ScriptCtx* scriptCtx) {
-  if (gOverworld.unk240 & 2)
+  if (gOverworld.flags & OVERWORLD_FLAG_MAP_TRANSITION)
     return;
   PlayOverworldMusic();
   scriptCtx->portraitId = 0;

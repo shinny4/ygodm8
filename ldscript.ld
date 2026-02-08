@@ -421,6 +421,8 @@ SECTIONS
         . = ALIGN(4); src/overworld.o(.data);
         src/overworld_gfx_effects.o(.data);
         data/data5.o(.data3);
+        src/code_8051958.o(.data);
+        data/data5.o(.data3_2);
         src/card_passwords.o(.rodata);
         data/data5.o(.data4);
         src/turn.o(.rodata); /*TODO: .data?*/
@@ -738,20 +740,13 @@ SECTIONS
     g8E0E099 = 0x8E0E099;
     g8E0E0A2 = 0x8E0E0A2;
     g8E0E384 = 0x8E0E384;
-    g8E0E3D4 = 0x8E0E3D4;
-    g8E0E3EC = 0x8E0E3EC;
-    gHorizontalDisplacements = 0x8E0E3C4;
-    g8E0E3CC = 0x8E0E3CC;
-    g8E0E404 = 0x8E0E404;
-    g8E0E416 = 0x8E0E416;
-    g8E0E494 = 0x8E0E494;
-    g8E0E494 = 0x8E0E494;
+
     g8E0E428 = 0x8E0E428;
     g8E0E45E = 0x8E0E45E;
     g8E0E494 = 0x8E0E494;
     g8E0E428 = 0x8E0E428;
     g8E0E45E = 0x8E0E45E;
-    sDirectionFacePlayer = 0x8E0E3C0;
+
     gMapStates = 0x8103314;
     g8FA31C0 = 0x8FA31C0;
     g8FA3360 = 0x8FA3360;

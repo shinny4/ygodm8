@@ -1,6 +1,10 @@
 #ifndef GUARD_OVERWORLD_H
 #define GUARD_OVERWORLD_H
 
+#define OVERWORLD_FLAG_EXIT_OVERWORLD 1
+#define OVERWORLD_FLAG_MAP_TRANSITION 2
+#define OVERWORLD_FLAG_WORLD_MAP_TRANSITION 4
+
 //TODO: ObjectDirection?
 enum Direction {
   DIRECTION_DOWN,
@@ -71,6 +75,164 @@ enum OverworldLocation {
   LOCATION_CLOCK_TOWER_SQUARE_NORTH_WEST2_TODO,
   LOCATION_EGYPT,
   LOCATION_EGYPT_MARIK_ROOM
+};
+
+// TODO: OVERWORLD_ENTITY_SPRITE?
+enum OverworldEntitySprite {
+  SPRITE_NONE = -1,
+  SPRITE_YUGI_UNUSED,
+  SPRITE_YUGI,
+  SPRITE_ATEM,
+  SPRITE_SETO,
+  SPRITE_JOEY,
+  SPRITE_MARIK,
+  SPRITE_ISHIZU,
+  SPRITE_MAI,
+  SPRITE_SOLOMON_UNUSED_TODO,
+  SPRITE_JOEY_UNUSED_TODO,
+  SPRITE_TEA,
+  SPRITE_SOLOMON,
+  SPRITE_LUMIS,
+  SPRITE_UMBRA,
+  SPRITE_STRINGS,
+  SPRITE_SEEKER,
+  SPRITE_ARKANA,
+  SPRITE_ESPA,
+  SPRITE_WEEVIL,
+  SPRITE_REX,
+  SPRITE_MAKO,
+  SPRITE_BONZ,
+  SPRITE_BAKURA,
+  SPRITE_PARA,
+  SPRITE_DOX,
+  SPRITE_PLAYER,
+  SPRITE_NEO_GHOUL,
+  SPRITE_MIMIC_OF_DOOM,
+  SPRITE_PUPPETEER_OF_DOOM,
+  SPRITE_PANIK,
+  SPRITE_MILLENNIUM_GUARDIAN,
+  SPRITE_PEGASUS,
+  SPRITE_SHADI,
+  SPRITE_ROLAND,
+  SPRITE_ESPA_BIGGER_BROTHER_TODO,
+  SPRITE_ESPA_LITTLE_BROTHER_TODO,
+  SPRITE_BLUE_EYES_UNUSED_TODO,
+  SPRITE_SLIFER_TODO,
+  SPRITE_RA_TODO,
+  SPRITE_CHEVALIER,
+  SPRITE_0x28,
+  SPRITE_INVISIBLE,
+  SPRITE_TAKESHI,
+  SPRITE_0x2B,
+  SPRITE_0x2C,
+  SPRITE_0x2D,
+  SPRITE_DUEL_EXPRESS_CONDUCTOR,
+  SPRITE_0x2F,
+  SPRITE_0x30,
+  SPRITE_TRISTAN,
+  SPRITE_0x32,
+  SPRITE_0x33,
+  SPRITE_0x34,
+  SPRITE_0x35,
+  SPRITE_DUKE,
+  SPRITE_MOKUBA,
+  SPRITE_SERENITY,
+  SPRITE_LUCKY,
+  SPRITE_0x3A,
+  SPRITE_0x3B,
+  SPRITE_0x3C,
+  SPRITE_0x3D,
+  SPRITE_0x3E,
+  SPRITE_BANDIT_KEITH,
+  SPRITE_0x40,
+  SPRITE_0x41,
+  SPRITE_JEAN_CLAUDE_MAGNUM,
+  SPRITE_0x43,
+  SPRITE_0x44,
+  SPRITE_0x45,
+  SPRITE_0x46,
+  SPRITE_0x47, //Mohawk red hair guy
+  SPRITE_0x48,
+  SPRITE_0x49,
+  SPRITE_0x4A,
+  SPRITE_0x4B,
+  SPRITE_0x4C,
+  SPRITE_0x4D,
+  SPRITE_0x4E,
+  SPRITE_0x4F,
+  SPRITE_0x50,
+  SPRITE_0x51,
+  SPRITE_0x52, //seto wannabe
+  SPRITE_0x53,
+  SPRITE_0x54,
+  SPRITE_0x55,
+  SPRITE_0x56,
+  SPRITE_0x57,
+  SPRITE_0x58,
+  SPRITE_PLAYER_RUNNING,
+  SPRITE_90,
+  SPRITE_91,
+  SPRITE_92,
+  SPRITE_93,
+  SPRITE_94,
+  SPRITE_95,
+  SPRITE_96,
+  SPRITE_PARADOX,
+  SPRITE_NOAH,
+  SPRITE_MONKEY_ROBOT,
+  SPRITE_REBECCA,
+  SPRITE_101,
+  SPRITE_102,
+  SPRITE_NIGHTMARE_PENGUIN,
+  SPRITE_DEEPSEA_WARRIOR,
+  SPRITE_ROBOTIC_KNIGHT,
+  SPRITE_JUDGE_MAN,
+  SPRITE_JINZO,
+  SPRITE_KAIBAMAN,
+  SPRITE_JOHNNY_STEPS,
+  SPRITE_ARTHUR,
+  SPRITE_111,
+  SPRITE_112,
+  SPRITE_VIDEO_CARD,
+  SPRITE_114,
+  SPRITE_115,
+  SPRITE_116,
+  SPRITE_117,
+  SPRITE_118,
+  SPRITE_119,
+  SPRITE_120,
+  SPRITE_121,
+  SPRITE_PARA_FLIPPING,
+  SPRITE_DOX_FLIPPING,
+  SPRITE_MEDIUM_RUBBLE,
+  SPRITE_SMALL_RUBBLE,
+  SPRITE_BIG_RUBBLE,
+  SPRITE_DOX_WITH_MOKUBA,
+  SPRITE_128,
+  SPRITE_BIG_FIVE,
+  SPRITE_TEDDY,
+  SPRITE_131,
+  SPRITE_132,
+  SPRITE_133,
+  SPRITE_134,
+  SPRITE_135,
+  SPRITE_136,
+  SPRITE_137,
+  SPRITE_138,
+  SPRITE_ODION,
+  SPRITE_FGD_BODY,
+  SPRITE_FGD_MIDDLE_HEAD,
+  SPRITE_FGD_TAIL,
+  SPRITE_FGD_RIGHT_HEADS,
+  SPRITE_FGD_LEFT_HEADS,
+  SPRITE_145,
+  SPRITE_146,
+  SPRITE_147,
+  SPRITE_148,
+  SPRITE_BUTTERFLY,
+  SPRITE_150,
+  SPRITE_151,
+  SPRITE_YUGI_WITH_MILLENNIUM_PUZZLE
 };
 
 enum PortraitPosition {
@@ -148,11 +310,9 @@ struct Map //MapHeader?
     u16 state;
     u16 unk4; //which connection the player came from?
     u8 unk6;
-    u8 unk7;
     u16 unk8;
     u16 unkA;
     u16 unkC;
-    u16 unkE;
 };
 
 //struct OverworldObject
@@ -184,19 +344,19 @@ struct Overworld
 {
     struct Map map; //inline instead?
     struct Object objects[15];
-    u8 unk1F0;
-    u8 unk1F1;
-    u8 unk1F2;
-    u8 unk1F3;
+    unsigned char unk1F0;
+    unsigned char unk1F1;
+    unsigned char unk1F2;
+    unsigned char unk1F3;
     struct Script *unk1F4[5];
     struct Script *unk208[5];
-    s16 unk21C[15];
-    u8 unk23A;
+    signed short unk21C[15];
+    unsigned char unk23A;
     u16 *unk23C; //collision data
-    u8 unk240;
+    unsigned char flags;
     unsigned short music;
-    int unk244;
-    int unk248;
+    long unk244;
+    long unk248;
     s16 unk24C; // used when the screen shakes due to earthquake effect; it modifies the background and sprite y position
     s16 unk24E; // ^same but x position
     enum OverworldBackground background;
@@ -205,21 +365,22 @@ struct Overworld
 struct ObjectData {
   signed short spriteId;
   enum Direction direction;
-  unsigned short x;
-  unsigned short y;
+  unsigned short x; //signed short? (also matches)
+  unsigned short y; //signed short? (also matches)
   struct Script *scriptA;
   struct Script *scriptR;
-  u8 hasShadow : 1;
-  u8 facePlayer : 1;
-  u8 wander : 1;
-  u8 unk11;
+  unsigned char hasShadow : 1;
+  unsigned char facePlayer : 1;
+  unsigned char wander : 1;
+  unsigned char unk11; //elevation? modifies y coord of sprite (y -= unk11)
+                       //(the higher the value, the higher the sprite is on the screen)
 };
 
 struct MapScript
 {
     struct Script *unk0;
-    unsigned char unk4; //mapid, map connection
-    unsigned char unk5;
+    unsigned char unk4;  //unused?? //mapid, map connection
+    unsigned char unk5;  //unused??
 };
 
 struct MapData
@@ -227,7 +388,7 @@ struct MapData
     struct ObjectData objects[16];  //terminated by a -1 (0xFFFF) spriteId
     struct MapScript unk140[5];
     struct MapScript unk168[5];
-    struct ObjectData playerInitialState[5]; // num_connections (including world map)
+    struct ObjectData playerInitialState[5]; //TODO: playerInitialStates? // num_connections (including world map)
     u16 music;
     u8 unk1F6; //bitfield?
 };
@@ -236,7 +397,7 @@ extern struct Overworld gOverworld;
 extern u16* gMapCollisions[]; //gMapCollisionData
 extern struct MapData** gMapData[]; //0xE19274
 
-extern u8* gUnk8E11790[];
+extern unsigned char * gOverworldEntitySprites[];
 extern u16 gUnk08103264[];
 extern u16 g8103284[];
 extern u16 g81032A2[];

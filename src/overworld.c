@@ -1,7 +1,7 @@
 #include "global.h"
 
 extern u16 gUnk08103284[];
-extern u16 g81032D2[];
+extern u16 g81032D2[]; // gOverworldEntitySprite offsets?
 extern u8 g82A8E4C[];
 extern u8 g82A906C[];
 extern u8 g82AD20C[];
@@ -144,7 +144,7 @@ static CONST_DATA signed char g8E0DB0C[][4] = {
 };
 
 
-static void sub_804E288 (void);
+static void OverworldProcessInput (void);
 static void SetBg3Regs (void);
 static void SetBg2Regs (void);
 static void SetBg1Regs (void);
@@ -938,7 +938,7 @@ _0804DB18:\n\
 }
 
 static void TryInitiatingWorldMap (void) {
-  if (gOverworld.unk240 & 4) {
+  if (gOverworld.flags & OVERWORLD_FLAG_WORLD_MAP_TRANSITION) {
     g2020DD0 = 0;
     if (CheckFlag(0xEE))
       g2020DD0 = 1;
@@ -964,7 +964,7 @@ static void TryInitiatingWorldMap (void) {
       g2020DD0 = 10;
 
     g2020DC8 = gOverworld.map.unk8;
-    gOverworld.unk240 &= ~4;
+    gOverworld.flags &= ~OVERWORLD_FLAG_WORLD_MAP_TRANSITION;
     sub_804F750(4);
     WorldMapMain();
     sub_80523EC(g8E0D9C4[g2020DCC][0], g8E0D9C4[g2020DCC][1], g8E0D9C4[g2020DCC][2]);
@@ -983,21 +983,20 @@ void OverworldMain (void) {
   }
   sub_80523EC(9, 1, 0);
   InitOverworld();
-  gOverworld.unk240 &= ~1;
+  gOverworld.flags &= ~OVERWORLD_FLAG_EXIT_OVERWORLD;
   do {
-    // TryInitWorldMap (only works if gOverworld.unk240 & 4 is set)
     TryInitiatingWorldMap();
-    sub_80554C4();
+    sub_80554C4(); // reset screen shake data/vars?
     OverworldLoadGraphics();
-    gOverworld.unk240 &= ~2;
+    gOverworld.flags &= ~OVERWORLD_FLAG_MAP_TRANSITION;
     InitiateScript(gOverworld.unk1F4[gOverworld.map.unk4]);
-    if (!(gOverworld.unk240 & 2)) {
+    if (!(gOverworld.flags & OVERWORLD_FLAG_MAP_TRANSITION)) {
       PlayOverworldMusic();
-      sub_804E288();
+      OverworldProcessInput();
       InitiateScript(gOverworld.unk208[gOverworld.map.unk6]);
     }
-  } while (!(gOverworld.unk240 & 1));
-  // gOverworld.unk240 LSB is never set to 1
+  } while (!(gOverworld.flags & OVERWORLD_FLAG_EXIT_OVERWORLD));
+  // gOverworld.flags LSB is never set to 1
   // so this function never returns
   // mark it as noreturn? (as well as AgbMain?)
 }
@@ -1031,10 +1030,10 @@ static void CopyOverworldBgGraphics (void) {
   }
 }
 
-static inline void sub_804EFE8_inline (u8 arg0) {
+static inline void sub_804EFE8_inline (u8 objId) {
   u32 i, j;
-  u8* dest = &gBgVram.cbb4[g8103284[arg0] * 32];
-  u8* src = &g82A906C[g81032A2[gOverworld.objects[arg0].unk1C] * 32];
+  u8* dest = &gBgVram.cbb4[TILE_OFFSET_4BPP(g8103284[objId])];
+  u8* src = &g82A906C[g81032A2[gOverworld.objects[objId].unk1C] * 32];
   for (i = 0; i < 2; dest += 0x3C0, src += 0x1C0, i++)
     for (j = 0; j < 64; j++)
       *dest++ = *src++;
@@ -1045,7 +1044,7 @@ static void sub_804DE74 (void) {
   u8 *dest, *src;
   for (i = 0; i < 15; i++)
     sub_804DF5C((u8)gOverworld.unk21C[i]);
-  dest = &gBgVram.cbb4[gUnk08103264[15] * 32];
+  dest = &gBgVram.cbb4[TILE_OFFSET_4BPP(gUnk08103264[15])];
   src = g82A8E4C;
   for (i = 0; i < 2; dest += 0x3C0, src += 0x1C0, i++)
     for (j = 0; j < 64; j++)
@@ -1055,9 +1054,9 @@ static void sub_804DE74 (void) {
   }
 }
 
-static inline void sub_804F054_inline (int spriteId, u8 arg1, u8* dest) {
+static inline void sub_804F054_inline (unsigned spriteId, u8 arg1, u8* dest) {
   u32 i, j;
-  u8* src = gUnk8E11790[spriteId] + g81032D2[arg1] * 32;
+  u8* src = gOverworldEntitySprites[spriteId] + g81032D2[arg1] * 32;
 
   for (i = 0; i < 4; dest += 0x380, src += 0x180, i++)
     for (j = 0; j < 128; j++)
@@ -1145,7 +1144,7 @@ _0804E0C4: .4byte gOverworld\n\
 _0804E0C8: .4byte 0x08E0DA26\n\
 _0804E0CC: .4byte 0x08103264\n\
 _0804E0D0: .4byte 0x02010400\n\
-_0804E0D4: .4byte 0x08E11790\n\
+_0804E0D4: .4byte gOverworldEntitySprites\n\
 _0804E0D8: .4byte 0x081032D2\n\
 _0804E0DC:\n\
 	cmp r1, #1\n\
@@ -1203,7 +1202,7 @@ _0804E11C:\n\
 _0804E140: .4byte 0x08E0DA26\n\
 _0804E144: .4byte 0x08103264\n\
 _0804E148: .4byte 0x02010400\n\
-_0804E14C: .4byte 0x08E11790\n\
+_0804E14C: .4byte gOverworldEntitySprites\n\
 _0804E150: .4byte 0x081032D2\n\
 _0804E154:\n\
 	cmp r1, #4\n\
@@ -1261,7 +1260,7 @@ _0804E1AE:\n\
 _0804E1B4: .4byte 0x08E0DA26\n\
 _0804E1B8: .4byte 0x08103264\n\
 _0804E1BC: .4byte 0x02010400\n\
-_0804E1C0: .4byte 0x08E11790\n\
+_0804E1C0: .4byte gOverworldEntitySprites\n\
 _0804E1C4: .4byte 0x081032D2");
 }
 
@@ -1336,9 +1335,9 @@ static inline void sub_804EFA8_inline (void) {
   OverworldSetRegDispcnt();
 }
 
-static void sub_804E288 (void) {
-  u8 r5 = 102;
-  while (!(gOverworld.unk240 & (1 | 2))) {
+static void OverworldProcessInput (void) {
+  u8 r5 = 102; // TODO UB: out of bounds index
+  while (!(gOverworld.flags & (OVERWORLD_FLAG_EXIT_OVERWORLD | OVERWORLD_FLAG_MAP_TRANSITION))) {
     gOverworld.objects[0].motionState = MOTION_STATIONARY;
     switch (ProcessInput()) {
       case WALK_UP:
@@ -1506,7 +1505,7 @@ _0804E5B0:\n\
 _0804E5B8: .4byte gOverworld\n\
 _0804E5BC: .4byte 0x08E0DA40\n\
 _0804E5C0: .4byte 0x02010400\n\
-_0804E5C4: .4byte 0x08E11790\n\
+_0804E5C4: .4byte gOverworldEntitySprites\n\
 _0804E5C8: .4byte 0x081032D2\n\
 _0804E5CC:\n\
 	adds r0, r6, #0\n\
@@ -1581,8 +1580,9 @@ static void sub_804E618 (void) {
   }
 }
 
+//see sub_804EA48
 /*regswap r4, r5
-static void sub_804E6E8 (u32* arg0, u32* unused, u32* arg2, u8 arg3) {
+static void sub_804E6E8 (u32* arg0, u32* unused, u32* arg2, unsigned char entityId) {
   u32 r1two;
   u32 r0;
   u32 r4;
@@ -1590,30 +1590,30 @@ static void sub_804E6E8 (u32* arg0, u32* unused, u32* arg2, u8 arg3) {
 
   arg0[0] = 0x01C000C0;
   arg2[0] = 0x01C008C0;
-  if (gOverworld.objects[arg3].spriteId == -1)
+  if (gOverworld.objects[entityId].spriteId == -1)
     return;
-  if (!sub_805222C(arg3, gOverworld.objects[arg3].x, gOverworld.objects[arg3].y))
+  if (!sub_805222C(entityId, gOverworld.objects[entityId].x, gOverworld.objects[entityId].y))
     return;
   arg0[0] |= 0x80000000;
-  if (gOverworld.objects[arg3].enableBlending)
+  if (gOverworld.objects[entityId].enableBlending)
     *arg0 |= 0x400;
-  r1two = gUnk08103264[arg3];
-  r1two |= g82AD20C[gOverworld.objects[arg3].spriteId] << 12;
+  r1two = gUnk08103264[entityId];
+  r1two |= g82AD20C[gOverworld.objects[entityId].spriteId] << 12;
   r1two |= 0x800;
   arg0[1] = r1two;
   arg2[1] = r1two;
-  gOverworld.objects[arg3].unkC = sub_80520E0(gOverworld.objects[arg3].x, gOverworld.objects[arg3].y);
+  gOverworld.objects[entityId].unkC = sub_80520E0(gOverworld.objects[entityId].x, gOverworld.objects[entityId].y);
 
-  r1 = gOverworld.objects[arg3].y;
-  r1 <<= 1;
-  r1 -= gOverworld.objects[arg3].unk8;
+  r1 = gOverworld.objects[entityId].y;
+  r1 <<= 1; //*= 2 (2x2 pixel metatile)
+  r1 -= gOverworld.objects[entityId].unk8;
   r0 = gOverworld.unk24C - 24;
   r1 += r0;
-  r4 = r1 - gOverworld.objects[arg3].unkA;
+  r4 = r1 - gOverworld.objects[entityId].unkA;
   r4 &= 0xFF;
 
-  r1 = gOverworld.objects[arg3].x;
-  r1 <<= 1;
+  r1 = gOverworld.objects[entityId].x;
+  r1 <<= 1; //*= 2 (2x2 pixel metatile)
   r0 = gOverworld.unk24E - 16;
   r1 += r0;
   r1 <<= 16;
@@ -1621,7 +1621,7 @@ static void sub_804E6E8 (u32* arg0, u32* unused, u32* arg2, u8 arg3) {
   r4 |= r1;
 
   arg0[0] = arg0[0] & 0xFE00FF00 | r4;
-  if (!sub_8052194(gOverworld.objects[arg3].unkC)) {
+  if (!sub_8052194(gOverworld.objects[entityId].unkC)) {
     r0 = arg2[0] | 0x80000000;
     r0 &= 0xFE00FF00;
     r0 |= r4;
@@ -1630,7 +1630,7 @@ static void sub_804E6E8 (u32* arg0, u32* unused, u32* arg2, u8 arg3) {
 }*/
 
 NAKED
-static void sub_804E6E8 (u32* arg0, u32* unused, u32* arg2, u8 arg3) {
+static void sub_804E6E8 (u32* arg0, u32* unused, u32* arg2, unsigned char entityId) {
   asm_unified("push {r4, r5, r6, r7, lr}\n\
 	mov r7, sb\n\
 	mov r6, r8\n\
@@ -1762,7 +1762,7 @@ _0804E7F0: .4byte 0x01FF0000\n\
 _0804E7F4: .4byte 0xFE00FF00");
 }
 
-static void sub_804E7F8 (struct OamData* arg0, u8 arg1) {
+static void sub_804E7F8 (struct OamData* arg0, unsigned char entityId) {
   int tempY;
   int tempX;
   int temp;
@@ -1777,20 +1777,20 @@ static void sub_804E7F8 (struct OamData* arg0, u8 arg1) {
   arg0->y = 192;
   arg0->x = 448;
 
-  if (gOverworld.objects[arg1].spriteId == -1 || !gOverworld.objects[arg1].hasShadow)
+  if (gOverworld.objects[entityId].spriteId == -1 || !gOverworld.objects[entityId].hasShadow)
     return;
-  if (!sub_805222C(arg1, gOverworld.objects[arg1].x, gOverworld.objects[arg1].y))
+  if (!sub_805222C(entityId, gOverworld.objects[entityId].x, gOverworld.objects[entityId].y))
     return;
 
   arg0->size = 0;
   arg0->shape = 1;
-  if (gOverworld.objects[arg1].enableBlending)
+  if (gOverworld.objects[entityId].enableBlending)
     arg0->objMode = 1;
-  arg0->tileNum = gUnk08103264[15] & 1023;
+  arg0->tileNum = gUnk08103264[15];
   arg0->priority = 2;
-  tempY = gOverworld.objects[arg1].y * 2 - gOverworld.objects[arg1].unk8;
+  tempY = gOverworld.objects[entityId].y * 2 - gOverworld.objects[entityId].unk8;
   arg0->y = tempY + gOverworld.unk24C;
-  tempX = gOverworld.objects[arg1].x * 2;
+  tempX = gOverworld.objects[entityId].x * 2;
   temp = gOverworld.unk24E - 8;
   arg0->x = tempX + temp;
 }
@@ -1823,7 +1823,7 @@ static void sub_804E918 (struct OamData* arg0, u8 arg1) {
   tempX = gOverworld.objects[arg1].x * 2;
   temp = gOverworld.unk24E - 2;
   arg0->x = tempX + temp;
-  arg0->tileNum = gUnk08103284[arg1] & 1023;
+  arg0->tileNum = gUnk08103284[arg1];
   arg0->priority = 1;
 }
 
@@ -2122,7 +2122,7 @@ void sub_804F054 (int spriteId, int arg1, u8* dest) {
   u16 spriteId_u16 = spriteId;
   u8 arg1_u8 = arg1;
   u32 i, j;
-  u8* src = gUnk8E11790[spriteId_u16] + g81032D2[arg1_u8] * 32;
+  u8* src = gOverworldEntitySprites[spriteId_u16] + g81032D2[arg1_u8] * 32;
 
   for (i = 0; i < 4; dest += 0x380, src += 0x180, i++)
     for (j = 0; j < 128; j++)
@@ -2431,7 +2431,7 @@ void PlayOverworldMusic (void) {
 //17 = explosion
 //18 = bandid keith revival
 //19 = Jinzo attack from below
-//1A = gathering all millenium items
+//1A = gathering all millennium items
 //1B = Slifer attacking ra sphere mode
 //1C = Slifer attacking
 //1D = Slifer slide

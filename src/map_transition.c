@@ -41,12 +41,12 @@ void sub_805236C (void) {
   u16 temp = sub_80520E0(gOverworld.objects[0].x, gOverworld.objects[0].y);
   switch (sub_80521AC(temp)) {
     case 1: // transition to other map
-      gOverworld.unk240 |= 2;
+      gOverworld.flags |= OVERWORLD_FLAG_MAP_TRANSITION;
       sub_8052318(temp);
       break;
     case 2: // transition to world map
-      gOverworld.unk240 |= 2;
-      gOverworld.unk240 |= 4;
+      gOverworld.flags |= OVERWORLD_FLAG_MAP_TRANSITION;
+      gOverworld.flags |= OVERWORLD_FLAG_WORLD_MAP_TRANSITION;
       sub_80524D8_inline(temp);
       break;
   }
