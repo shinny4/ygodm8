@@ -479,8 +479,10 @@ g80F09D0:
 .section .rodata3
     .global gUnk08103264 //u16 []
 gUnk08103264:
-    .incbin "baserom.gba", 0x103264, 0x4F99B0
+    .incbin "baserom.gba", 0x103264, 0x3BE8
 
+.section .ow_entities
+    .incbin "baserom.gba", 0x2A8E4C, 0x353DC8
 
 //big card art tiles start
     .global gUnk_85fcc14
@@ -7022,16 +7024,16 @@ gUnk_893B290:
 //9A7C1E = start of mini attribute icons
 //
     //end of rodata?
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //start of .data? probably not since it's before *libgcc.a:*.o(.rodata);    ' 
+
+
+
+
+
+
+
+
+
+    //start of .data? probably not since it's before *libgcc.a:*.o(.rodata);    '
     .global gUnk_8A44F5C
 gUnk_8A44F5C:
     .incbin "baserom.gba", 0xA44F5C, 0x40

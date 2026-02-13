@@ -8,7 +8,7 @@ TOOL_NAMES := gbagfx preproc
 
 TOOLDIRS := $(TOOL_NAMES:%=tools/%)
 
-tools: tools/gbagfx/gbagfx tools/preproc/preproc
+tools-rules: tools/gbagfx/gbagfx tools/preproc/preproc
 
 tools/gbagfx/gbagfx:
 	@$(MAKE) -C tools/gbagfx

@@ -386,6 +386,8 @@ SECTIONS
         src/monster_effects.o(.rodata);
         src/spell_effects.o(.rodata);
         data/data4.o(.rodata3);
+        src/overworld/entities/entities.o(.rodata);
+        data/data4.o(.ow_entities);
 
         *libgcc.a:*.o(.rodata);
 

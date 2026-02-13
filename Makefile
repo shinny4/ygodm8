@@ -69,7 +69,7 @@ $(ROM): $(ELF)
 $(ELF): $(ALL_OBJS) $(LDSCRIPT)
 	cd $(BUILD_DIR) && $(LD) -T ../$(LDSCRIPT) -Map ../$(MAP) -o ../$@ $(LIB)
 
-$(C_BUILDDIR)/%.o: $(C_SUBDIR)/%.c tools graphics
+$(C_BUILDDIR)/%.o: $(C_SUBDIR)/%.c | tools-rules graphics-rules
 	$(CPP) $(CPPFLAGS) $< -o $(C_BUILDDIR)/$*.i
 	@$(PREPROC) $(C_BUILDDIR)/$*.i charmap.txt | $(CC1) $(CFLAGS) -o $(C_BUILDDIR)/$*.s
 	@echo ".text\\n\\t.align\\t2, 0\\n" >> $(C_BUILDDIR)/$*.s
@@ -81,16 +81,11 @@ $(ASM_BUILDDIR)/%.o: $(ASM_SUBDIR)/%.s
 $(DATA_ASM_BUILDDIR)/%.o: $(DATA_ASM_SUBDIR)/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
-#TODO: move gfx cleaning commands to gfx makefile
-clean: clean-tools
+clean: clean-tools clean-graphics
 	rm -f $(ROM) $(ELF) $(MAP)
-	rm -f graphics/cards/artwork/*.8bpp
-	rm -f graphics/cards/attributes/*.4bpp
-	rm -f graphics/cards/attributes/*.gbapal
-	rm -f graphics/cards/types/*.4bpp
-	rm -f graphics/cards/types/*.gbapal
 	rm -r $(BUILD_DIR)/
-
 
 compare: all
 	sha1sum -c $(BUILD_NAME).sha1
+
+.PHONY: graphics-rules tools-rules

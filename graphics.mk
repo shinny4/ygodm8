@@ -10,14 +10,26 @@ CARD_ATTRIBUTE_PNGS := $(wildcard graphics/cards/attributes/*.png)
 CARD_ATTRIBUTE_TILES := $(patsubst graphics/cards/attributes/%.png,graphics/cards/attributes/%.4bpp,$(CARD_ATTRIBUTE_PNGS))
 CARD_ATTRIBUTE_PALETTES := $(patsubst graphics/cards/attributes/%.png,graphics/cards/attributes/%.gbapal,$(CARD_ATTRIBUTE_PNGS))
 
-graphics: $(CARD_TYPE_TILES) \
-          $(CARD_TYPE_PALETTES) \
-          $(CARD_ATTRIBUTE_TILES) \
-          $(CARD_ATTRIBUTE_PALETTES) \
+OVERWORLD_ENTITY_PNGS := $(wildcard src/overworld/entities/*.png)
+OVERWORLD_ENTITY_TILES := $(patsubst src/overworld/entities/%.png,src/overworld/entities/%.4bpp,$(OVERWORLD_ENTITY_PNGS))
 
-%.4bpp: %.png tools
+graphics-rules: $(CARD_TYPE_TILES) \
+                $(CARD_TYPE_PALETTES) \
+                $(CARD_ATTRIBUTE_TILES) \
+                $(CARD_ATTRIBUTE_PALETTES) \
+                $(OVERWORLD_ENTITY_TILES)
+
+clean-graphics:
+	rm -f graphics/cards/artwork/*.8bpp
+	rm -f graphics/cards/attributes/*.4bpp
+	rm -f graphics/cards/attributes/*.gbapal
+	rm -f graphics/cards/types/*.4bpp
+	rm -f graphics/cards/types/*.gbapal
+	rm -f src/overworld/entities/*.4bpp
+
+%.4bpp: %.png | tools-rules
 	tools/gbagfx/gbagfx $< $@
-%.8bpp: %.png tools
+%.8bpp: %.png | tools-rules
 	tools/gbagfx/gbagfx $< $@
-%.gbapal: %.png tools
+%.gbapal: %.png | tools-rules
 	tools/gbagfx/gbagfx $< $@
