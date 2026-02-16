@@ -133,8 +133,8 @@ static void sub_80526D0 (struct ScriptCtx* scriptCtx) {
   // sub_8053334 inline
   if (gOverworld.flags & OVERWORLD_FLAG_MAP_TRANSITION)
     return;
-  PlayOverworldMusic();
-  scriptCtx->portraitId = 0;
+  PlayOverworldMusic(); // doesn't restart if it's already playing
+  scriptCtx->portraitId = PORTRAIT_NONE;
   scriptCtx->unk84 = 0;
   DisplayPortrait(scriptCtx);
   REG_WINOUT = 0x3D3E;
@@ -448,9 +448,9 @@ static void sub_80527E8(struct ScriptCtx *script)
 
         script->unk82 = 1;
         if (script->unk8 & 1)
-            sub_8020968(&gBgVram.sbb1B[1][0] + script->unk8 / 2 * 64, var, 0x101);
+            sub_8020968(gVramBuffer + 0xD840 + script->unk8 / 2 * 128, var, 0x101);
         else
-            sub_8020968(&gBgVram.sbb1B[0][16] + script->unk8 / 2 * 64, var, 0x101);
+            sub_8020968(gVramBuffer + 0xD820 + script->unk8 / 2 * 128, var, 0x101);
         sub_8053284(script);
     }
 }
@@ -466,21 +466,21 @@ static void sub_8052F60 (struct ScriptCtx *script) {
       script->unk8 = 1;
     script->unk1C = 0;
     script->unkC = 0;
-    LZ77UnCompWram(g82AD2D0, gBgVram.sbb1B);
+    LZ77UnCompWram(g82AD2D0, gVramBuffer + 0xD800);
     return;
   }
   switch (script->unk1C++) {
     case 0:
       if (script->unk8 & 1)
-        sub_8020968(&gBgVram.sbb1B[1][0] + script->unk8 / 2 * 64, 0xA081, 0x101);
+        sub_8020968(gVramBuffer + 0xD840 + script->unk8 / 2 * 128, 0xA081, 0x101);
       else
-        sub_8020968(&gBgVram.sbb1B[0][16] + script->unk8 / 2 * 64, 0xA081, 0x101);
+        sub_8020968(gVramBuffer + 0xD820 + script->unk8 / 2 * 128, 0xA081, 0x101);
       break;
     case 15:
       if (script->unk8 & 1)
-        sub_8020968(&gBgVram.sbb1B[1][0] + script->unk8 / 2 * 64, 0x4081, 0x101);
+        sub_8020968(gVramBuffer + 0xD840 + script->unk8 / 2 * 128, 0x4081, 0x101);
       else
-        sub_8020968(&gBgVram.sbb1B[0][16] + script->unk8 / 2 * 64, 0x4081, 0x101);
+        sub_8020968(gVramBuffer + 0xD820 + script->unk8 / 2 * 128, 0x4081, 0x101);
       break;
     case 29:
       script->unk1C = 0;
@@ -499,7 +499,7 @@ static void sub_8053040 (struct ScriptCtx *script) {
       script->unk8 = 1;
     script->unk1C = 0;
     script->unkC = 0;
-    LZ77UnCompWram(g82AD2D0, gBgVram.sbb1B);
+    LZ77UnCompWram(g82AD2D0, gVramBuffer + 0xD800);
     return;
   }
   if (gNewButtons & (DPAD_LEFT | DPAD_UP) && script->unk1E == 1) {
@@ -512,12 +512,12 @@ static void sub_8053040 (struct ScriptCtx *script) {
   }
   switch (script->unk1E) {
     case 0:
-      sub_8020968(&gBgVram.sbb1B[0][16], 0x7281, 0x101);
-      sub_8020968(&gBgVram.sbb1B[28][16], 0x4081, 0x101);
+      sub_8020968(gVramBuffer + 0xD820, 0x7281, 0x101);
+      sub_8020968(gVramBuffer + 0xD800 + 0x720, 0x4081, 0x101);
       break;
     case 1:
-      sub_8020968(&gBgVram.sbb1B[0][16], 0x4081, 0x101);
-      sub_8020968(&gBgVram.sbb1B[28][16], 0x7281, 0x101);
+      sub_8020968(gVramBuffer + 0xD820, 0x4081, 0x101);
+      sub_8020968(gVramBuffer + 0xD800 + 0x720, 0x7281, 0x101);
       break;
   }
 }
@@ -538,9 +538,9 @@ static void sub_8053138 (struct ScriptCtx *script) {
     script->unk78 += 2;
   }
   if (script->unk8 & 1)
-    sub_8020968(&gBgVram.sbb1B[1][0] + script->unk8 / 2 * 64, var, 0x101);
+    sub_8020968(gVramBuffer + 0xD840 + script->unk8 / 2 * 128, var, 0x101);
   else
-    sub_8020968(&gBgVram.sbb1B[0][16] + script->unk8 / 2 * 64, var, 0x101);
+    sub_8020968(gVramBuffer + 0xD820 + script->unk8 / 2 * 128, var, 0x101);
   if (script->unkD == 1)
     script->unk8 = gE0E674[script->unk8];
   else
@@ -578,8 +578,8 @@ static void sub_8053284 (struct ScriptCtx *script) {
 }
 
 static void sub_80532A8 (struct ScriptCtx* unused) {
-  LZ77UnCompWram(g82AD2D0, gBgVram.sbb1B);
-  CpuCopy16(g82AD48C, gBgVram.sbb1D, 0x500);
+  LZ77UnCompWram(g82AD2D0, gVramBuffer + 0xD800);
+  CpuCopy16(g82AD48C, gVramBuffer + 0xE800, 0x500);
   SetVBlankCallback(sub_804ECA8);
   WaitForVBlank();
 }
@@ -642,7 +642,7 @@ static void sub_8053334 (struct ScriptCtx* scriptCtx) {
   if (gOverworld.flags & OVERWORLD_FLAG_MAP_TRANSITION)
     return;
   PlayOverworldMusic();
-  scriptCtx->portraitId = 0;
+  scriptCtx->portraitId = PORTRAIT_NONE;
   scriptCtx->unk84 = 0;
   DisplayPortrait(scriptCtx);
   REG_WINOUT = 0x3D3E;

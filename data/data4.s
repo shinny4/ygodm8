@@ -482,7 +482,7 @@ gUnk08103264:
     .incbin "baserom.gba", 0x103264, 0x3BE8
 
 .section .ow_entities
-    .incbin "baserom.gba", 0x2A8E4C, 0x353DC8
+    .incbin "baserom.gba", 0x2AD2D0, 0x34F944
 
 //big card art tiles start
     .global gUnk_85fcc14

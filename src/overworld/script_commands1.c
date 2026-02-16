@@ -8,9 +8,11 @@ extern s16 gE0E83C[];
 extern s8 gE0E854[]; // how many frames to wait?
 extern s8 gE0E865[];
 
-extern int g8105114[][27][2];
+extern const struct {int a, b;} g8105114[][27];
 
 int sub_8056070 (u16);
+void sub_804F28C (void);
+void sub_804EFE8 (int);
 
 void sub_805345C (u8 obj, u8 direction, u8 distance, u8 arg3, struct ScriptCtx *script) {
   int i;
@@ -245,146 +247,24 @@ void sub_8053A74 (u8 obj, u8 arg1, struct ScriptCtx* script) {
   sub_804F254();
 }
 
-NAKED
 void sub_8053B40(u8 reaction, u16 arg1, struct ScriptCtx* script) {
-  asm_unified("push {r4, r5, r6, r7, lr}\n\
-	mov r7, sl\n\
-	mov r6, sb\n\
-	mov r5, r8\n\
-	push {r5, r6, r7}\n\
-	sub sp, #0xc\n\
-	lsls r0, r0, #0x18\n\
-	lsrs r0, r0, #0x18\n\
-	str r0, [sp]\n\
-	lsls r1, r1, #0x10\n\
-	lsrs r1, r1, #0x10\n\
-	mov sl, r1\n\
-	adds r1, r2, #0\n\
-	adds r1, #0x86\n\
-	movs r0, #0\n\
-	strb r0, [r1]\n\
-	adds r0, r2, #0\n\
-	bl sub_8053404\n\
-	movs r2, #0\n\
-	ldr r4, _08053C0C\n\
-	movs r0, #0xd8\n\
-	ldr r1, [sp]\n\
-	adds r3, r1, #0\n\
-	muls r3, r0, r3\n\
-	adds r0, r3, r4\n\
-	ldr r1, [r0]\n\
-	movs r0, #1\n\
-	rsbs r0, r0, #0\n\
-	cmp r1, r0\n\
-	beq _08053BFC\n\
-	mov r8, r3\n\
-	ldr r0, _08053C10\n\
-	str r0, [sp, #4]\n\
-_08053B84:\n\
-	movs r7, #1\n\
-	movs r5, #0\n\
-	lsls r6, r2, #3\n\
-	adds r2, #1\n\
-	mov sb, r2\n\
-	mov r1, r8\n\
-	adds r0, r6, r1\n\
-	ldr r2, _08053C0C\n\
-	adds r1, r0, r2\n\
-	ldr r4, [sp, #4]\n\
-	adds r4, #0x2c\n\
-_08053B9A:\n\
-	mov r0, sl\n\
-	ands r0, r7\n\
-	cmp r0, #0\n\
-	beq _08053BB0\n\
-	ldr r0, [r1]\n\
-	strb r0, [r4]\n\
-	adds r0, r5, #0\n\
-	str r1, [sp, #8]\n\
-	bl sub_804EFE8\n\
-	ldr r1, [sp, #8]\n\
-_08053BB0:\n\
-	lsls r0, r7, #0x11\n\
-	lsrs r7, r0, #0x10\n\
-	adds r4, #0x20\n\
-	adds r5, #1\n\
-	cmp r5, #0xe\n\
-	ble _08053B9A\n\
-	bl sub_804F28C\n\
-	mov r1, r8\n\
-	adds r0, r6, r1\n\
-	ldr r2, _08053C14\n\
-	adds r0, r0, r2\n\
-	ldr r0, [r0]\n\
-	cmp r0, #1\n\
-	ble _08053BE8\n\
-	movs r0, #0xd8\n\
-	ldr r1, [sp]\n\
-	muls r0, r1, r0\n\
-	adds r0, r6, r0\n\
-	adds r1, r2, #0\n\
-	adds r0, r0, r1\n\
-	ldr r0, [r0]\n\
-	subs r5, r0, #1\n\
-_08053BDE:\n\
-	bl sub_804F28C\n\
-	subs r5, #1\n\
-	cmp r5, #0\n\
-	bne _08053BDE\n\
-_08053BE8:\n\
-	mov r2, sb\n\
-	lsls r0, r2, #3\n\
-	add r0, r8\n\
-	ldr r1, _08053C0C\n\
-	adds r0, r0, r1\n\
-	ldr r1, [r0]\n\
-	movs r0, #1\n\
-	rsbs r0, r0, #0\n\
-	cmp r1, r0\n\
-	bne _08053B84\n\
-_08053BFC:\n\
-	add sp, #0xc\n\
-	pop {r3, r4, r5}\n\
-	mov r8, r3\n\
-	mov sb, r4\n\
-	mov sl, r5\n\
-	pop {r4, r5, r6, r7}\n\
-	pop {r0}\n\
-	bx r0\n\
-	.align 2, 0\n\
-_08053C0C: .4byte 0x08105114\n\
-_08053C10: .4byte gOverworld\n\
-_08053C14: .4byte 0x08105118");
-}
-/*
-void sub_8053B40(u8 reaction, u16 arg1, struct ScriptCtx* script) {
-  int i;
-
+  unsigned i;
   script->unk86 = 0;
   sub_8053404(script);
-  for (i = 0; g8105114[reaction][i][0] != -1; i++) {
+  for (i = 0; g8105114[reaction][i].a != -1; i++) {
     int j;
     u16 mask;
     for (mask = 1, j = 0; j < 15; mask <<= 1, j++) {
       if (arg1 & mask) {
-        gOverworld.objects[j].unk1C = g8105114[reaction][i][0];
+        gOverworld.objects[j].unk1C = g8105114[reaction][i].a;
         sub_804EFE8(j);
       }
     }
     sub_804F28C();
-    if (g8105114[reaction][i][1] < 2)
-      continue;
-    j = g8105114[reaction][i][1];
-    while (--j)
+    for (j = 1; j < g8105114[reaction][i].b; j++)
       sub_804F28C();
   }
-}*/
-
-
-
-
-
-
+}
 
 inline void sub_8053E94 (struct ScriptCtx* script) {
   script->unk1E = 0;

@@ -1,12 +1,20 @@
 #include "global.h"
 
-extern u16 gUnk08103284[];
-extern u16 g81032D2[]; // gOverworldEntitySprite offsets?
-extern u8 g82A8E4C[];
-extern u8 g82A906C[];
-extern u8 g82AD20C[];
-extern u8 g82AD2B6[];
+extern const u16 gUnk08103284[]; // reaction bubble tile num
+extern const u16 g81032D2[]; // gOverworldEntitySprite offsets?
+extern const unsigned short gOverworldEntityPalettes[];
+extern const u8 g82AD20C[];
+extern const u8 g82AD2B6[]; // reaction bubble palette num
+
+
+
+
+
+
+extern const u16 g82ADC8C[]; // font palette
 extern u16 gCableCarTilemap[]; //841D91C
+
+
 
 static CONST_DATA unsigned short g8E0D9C4[][3] = {
   {0, 0, 4},
@@ -1001,11 +1009,12 @@ void OverworldMain (void) {
   // mark it as noreturn? (as well as AgbMain?)
 }
 
+// TODO: this also copies the object palettes (but not tiles)
 static void CopyOverworldBgGraphics (void) {
   switch (gOverworld.background) {
     case OVERWORLD_BACKGROUND_NORMAL:
       LZ77UnCompWram(gMapTilesets[gOverworld.map.id], gBgVram.cbb0); //copy tileset
-      sub_804F5D8();
+      sub_804F5D8(); // copy font palette, bg palette, and entity (object) palettes
       CpuCopy16(gLowLayerTilemaps[gOverworld.map.id], gBgVram.sbb1F, 0x800); //copy bg2 tilemap
       CpuCopy16(gHighLayerTilemaps[gOverworld.map.id], gBgVram.sbb1E, 0x800); //copy bg1 tilemap
       if (gOverworld.map.id == 0x29) //pegasus island cable car bg
@@ -1013,7 +1022,7 @@ static void CopyOverworldBgGraphics (void) {
       break;
     case OVERWORLD_BACKGROUND_RESHEF:
       LZ77UnCompWram(g84C9FBC, gBgVram.cbb0);
-      CpuCopy16(g82AD06C, gPaletteBuffer + 256, 0x180);
+      CpuCopy16(gOverworldEntityPalettes, gPaletteBuffer + 256, 0x180);
       CpuCopy16(g82ADC8C, gPaletteBuffer, 0x20);
       CpuCopy16(g84D0CE0, &gPaletteBuffer[16], 0x1E0);
       CpuCopy16(g84CFCE0, gBgVram.sbb1F, 0x800);
@@ -1021,7 +1030,7 @@ static void CopyOverworldBgGraphics (void) {
       break;
     case OVERWORLD_BACKGROUND_GOEMON_IMPACT:
       LZ77UnCompWram(g84D0EC0, gBgVram.cbb0);
-      CpuCopy16(g82AD06C, gPaletteBuffer + 256, 0x180);
+      CpuCopy16(gOverworldEntityPalettes, gPaletteBuffer + 256, 0x180);
       CpuCopy16(g82ADC8C, gPaletteBuffer, 0x20);
       CpuCopy16(g84D69D0, &gPaletteBuffer[16], 0x1E0);
       CpuCopy16(g84D59D0, gBgVram.sbb1F, 0x800);
@@ -1033,7 +1042,7 @@ static void CopyOverworldBgGraphics (void) {
 static inline void sub_804EFE8_inline (u8 objId) {
   u32 i, j;
   u8* dest = &gBgVram.cbb4[TILE_OFFSET_4BPP(g8103284[objId])];
-  u8* src = &g82A906C[g81032A2[gOverworld.objects[objId].unk1C] * 32];
+  const u8* src = &ReactionBubbleTiles[g81032A2[gOverworld.objects[objId].unk1C] * 32];
   for (i = 0; i < 2; dest += 0x3C0, src += 0x1C0, i++)
     for (j = 0; j < 64; j++)
       *dest++ = *src++;
@@ -1041,11 +1050,12 @@ static inline void sub_804EFE8_inline (u8 objId) {
 
 static void sub_804DE74 (void) {
   u32 i, j;
-  u8 *dest, *src;
+  u8 *dest;
+  const u8 * src;
   for (i = 0; i < 15; i++)
     sub_804DF5C((u8)gOverworld.unk21C[i]);
   dest = &gBgVram.cbb4[TILE_OFFSET_4BPP(gUnk08103264[15])];
-  src = g82A8E4C;
+  src = ShadowTiles;
   for (i = 0; i < 2; dest += 0x3C0, src += 0x1C0, i++)
     for (j = 0; j < 64; j++)
       *dest++ = *src++;
@@ -1795,6 +1805,7 @@ static void sub_804E7F8 (struct OamData* arg0, unsigned char entityId) {
   arg0->x = tempX + temp;
 }
 
+// SetReactionBubbleOam (oam buffer)
 static void sub_804E918 (struct OamData* arg0, u8 arg1) {
   int tempY;
   int tempX;
@@ -1819,7 +1830,7 @@ static void sub_804E918 (struct OamData* arg0, u8 arg1) {
   if (gOverworld.objects[arg1].enableBlending)
     arg0->objMode = 1;
   tempY = gOverworld.objects[arg1].y * 2 - gOverworld.objects[arg1].unk8;
-  arg0->y = tempY - 28 + gOverworld.unk24C;
+  arg0->y = tempY - 28 + gOverworld.unk24C; // 28 = how many pixels above the entity is the reaction bubble
   tempX = gOverworld.objects[arg1].x * 2;
   temp = gOverworld.unk24E - 2;
   arg0->x = tempX + temp;
@@ -1856,7 +1867,7 @@ static void sub_804EA48 (u32* arg0, u8 arg1) {
   arg0[0] |= r2;
 }
 
-// Set portrait OAM
+// Set portrait OAM (oam buffer)
 void sub_804EB04 (struct OamData* arg0, enum PortraitPosition position) {
   if (position == PORTRAIT_POSITION_AUTO) {
     position = PORTRAIT_POSITION_LEFT;
@@ -2032,8 +2043,8 @@ static void SetBg0Data (void) {
   REG_BG0CNT = 0x1D0C;
   gBG0VOFS = 0;
   gBG0HOFS = 8;
-  LZ77UnCompWram(g82AD2D0, gBgVram.sbb1B);
-  CpuCopy16(g82AD48C, gBgVram.sbb1D, 0x500);
+  LZ77UnCompWram(g82AD2D0, gVramBuffer + 0xD800);   // copy textbox tiles (empty)
+  CpuCopy16(g82AD48C, gVramBuffer + 0xE800, 0x500); // copy tilemap (240x160p = 32x20t)
 }
 
 // load object gfx? (objects being interactable entities in the overworld (16 of them can be present at a time))
@@ -2111,7 +2122,7 @@ void sub_804EFA8 (void) {
 void sub_804EFE8 (u8 arg0) {
   u32 i, j;
   u8* dest = &gBgVram.cbb4[g8103284[arg0] * 32];
-  u8* src = &g82A906C[g81032A2[gOverworld.objects[arg0].unk1C] * 32];
+  const u8* src = &ReactionBubbleTiles[g81032A2[gOverworld.objects[arg0].unk1C] * 32];
   for (i = 0; i < 2; dest += 0x3C0, src += 0x1C0, i++)
     for (j = 0; j < 64; j++)
       *dest++ = *src++;
@@ -2324,7 +2335,7 @@ void OverworldSetRegDispcnt2 (void) {
 }
 // inline?
 void sub_804F580 (void) {
-  CpuCopy16(g82AD06C, gPaletteBuffer + 256, 0x180);
+  CpuCopy16(gOverworldEntityPalettes, gPaletteBuffer + 256, 0x180);
 }
 // inline?
 void sub_804F598 (void) {
@@ -2336,7 +2347,7 @@ void sub_804F5B0 (void) {
 }
 
 void sub_804F5D8 (void) {
-  CpuCopy16(g82AD06C, gPaletteBuffer + 256, 0x180);
+  CpuCopy16(gOverworldEntityPalettes, gPaletteBuffer + 256, 0x180);
   CpuCopy16(g82ADC8C, gPaletteBuffer, 0x20); // font palette?
   CpuCopy16(g8E11CD0[gOverworld.map.id], gPaletteBuffer + 0x10, 0x1E0);
 }

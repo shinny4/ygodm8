@@ -17,7 +17,7 @@ graphics-rules: $(CARD_TYPE_TILES) \
                 $(CARD_TYPE_PALETTES) \
                 $(CARD_ATTRIBUTE_TILES) \
                 $(CARD_ATTRIBUTE_PALETTES) \
-                $(OVERWORLD_ENTITY_TILES)
+                $(OVERWORLD_ENTITY_TILES) src/overworld/entities/palette.gbapal
 
 clean-graphics:
 	rm -f graphics/cards/artwork/*.8bpp
@@ -26,6 +26,7 @@ clean-graphics:
 	rm -f graphics/cards/types/*.4bpp
 	rm -f graphics/cards/types/*.gbapal
 	rm -f src/overworld/entities/*.4bpp
+	rm -f src/overworld/entities/*.gbapal
 
 %.4bpp: %.png | tools-rules
 	tools/gbagfx/gbagfx $< $@
