@@ -42,6 +42,10 @@ static void GenerateCardEnumFile ();
 static void GenerateCardDataFile ();
 static void GenerateEquipSpellFile ();
 static void GenerateCardArtworksFile ();
+static void GenerateMonsterEffectEnumFile ();
+static void GenerateSpellEffectEnumFile ();
+static void GenerateTrapEffectEnumFile ();
+static void GeneratePermanentEffectEnumFile ();
 
 int main () {
   ParseJson();
@@ -49,7 +53,7 @@ int main () {
   //GenerateCardEnumFile();
   //GenerateCardDataFile();
   //GenerateEquipSpellFile();
-  //GenerateCardArtworksFile();
+  GenerateCardArtworksFile();
 }
 
 // TODO: handle errors for missing object members that are expected to be present
@@ -166,7 +170,7 @@ static void GenerateCardEnumFile () {
 
 static void GenerateCardDataFile (void) {
   ofstream cardDataFile;
-  cardDataFile.open("../../src/card_data.c");
+  cardDataFile.open("src/card_data.c");
   if (!cardDataFile.is_open()) {
     cerr << "Error: unable to open card_data.c\n";
     return;
@@ -204,7 +208,7 @@ static void GenerateCardDataFile (void) {
 
 static void GenerateEquipSpellFile () {
   ofstream equipSpellFile;
-  equipSpellFile.open("../../src/equip_spell.c");
+  equipSpellFile.open("src/equip_spell.c");
   if (!equipSpellFile.is_open()) {
     cerr << "Error: unable to open equip_spell.c\n";
     return;
@@ -214,22 +218,23 @@ static void GenerateEquipSpellFile () {
 
 static void GenerateCardArtworksFile () {
   ofstream cardArtworksFile;
-  cardArtworksFile.open("../../src/card_artworks.c");
+  cardArtworksFile.open("src/card_artworks.c");
   if (!cardArtworksFile.is_open()) {
     cerr << "Error: unable to open card_artworks.c\n";
     return;
   }
   cardArtworksFile << "// DO NOT MODIFY THIS FILE! It is auto-generated from card.json\n";
   for (string & sanitizedName : sSanitizedEnglishNames) {
-    cardArtworksFile << "static const unsigned char s";
-    //TODO: just output s0, s1 etc... since they're auto generated?
-    for (unsigned i = 0; i < sanitizedName.length(); i++)
-      if (sanitizedName[i] != '_')
-        cardArtworksFile << sanitizedName[i];
-    cardArtworksFile << "[] = INCBIN_U8(graphics/cards/";
+    unsigned id = 0;
+    cardArtworksFile << "static const unsigned char s" << id << "[] = INCBIN_U8(\"graphics/cards/artwork/";
+    id++;
     for (unsigned i = 0; i < sanitizedName.length(); i++)
       cardArtworksFile << static_cast<unsigned char>(tolower(sanitizedName[i]));
-    cardArtworksFile << ".huff);\n";
+    cardArtworksFile << ".huff\");\n";
   }
+  cardArtworksFile << "const unsigned char * gCardArtworks[] = {\n";
+  for (unsigned id = 0; id < sSanitizedEnglishNames.size(); id++)
+    cardArtworksFile << "  s" << id << ",\n";
+  cardArtworksFile << "};\n";
   cardArtworksFile.close();
 }

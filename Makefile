@@ -63,6 +63,9 @@ all: $(ROM)
 include make_tools.mk
 include graphics.mk
 
+src/card_artworks.c: tools/cardjson/cardjson
+	tools/cardjson/cardjson
+
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --pad-to 0x9000000 $< $@
 
@@ -75,7 +78,7 @@ $(C_BUILDDIR)/%.o: $(C_SUBDIR)/%.c | tools-rules graphics-rules
 	@echo ".text\\n\\t.align\\t2, 0\\n" >> $(C_BUILDDIR)/$*.s
 	$(AS) $(ASFLAGS) $(C_BUILDDIR)/$*.s -o $@
 
-$(ASM_BUILDDIR)/%.o: $(ASM_SUBDIR)/%.s
+$(ASM_BUILDDIR)/%.o: $(ASM_SUBDIR)/%.s | src/card_artworks.c
 	$(AS) $(ASFLAGS) $< -o $@
 
 $(DATA_ASM_BUILDDIR)/%.o: $(DATA_ASM_SUBDIR)/%.s

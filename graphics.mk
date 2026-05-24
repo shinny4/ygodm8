@@ -1,5 +1,6 @@
 CARD_ARTWORK_PNGS := $(wildcard graphics/cards/artwork/*.png)
 CARD_ARTWORK_TILES := $(patsubst graphics/cards/artwork/%.png,graphics/cards/artwork/%.8bpp,$(CARD_ARTWORK_PNGS))
+CARD_ARTWORK_TILES_COMPRESSED := $(patsubst graphics/cards/artwork/%.png,graphics/cards/artwork/%.huff,$(CARD_ARTWORK_PNGS))
 CARD_ARTWORK_PALETTES := $(patsubst graphics/cards/artwork/%.png,graphics/cards/artwork/%.gbapal,$(CARD_ARTWORK_PNGS))
 
 CARD_TYPE_PNGS := $(wildcard graphics/cards/types/*.png)
@@ -17,16 +18,22 @@ graphics-rules: $(CARD_TYPE_TILES) \
                 $(CARD_TYPE_PALETTES) \
                 $(CARD_ATTRIBUTE_TILES) \
                 $(CARD_ATTRIBUTE_PALETTES) \
+                $(CARD_ARTWORK_TILES) \
+                $(CARD_ARTWORK_TILES_COMPRESSED) \
+                $(CARD_ARTWORK_PALETTES) \
                 $(OVERWORLD_ENTITY_TILES) src/overworld/entities/palette.gbapal
 
 clean-graphics:
 	rm -f graphics/cards/artwork/*.8bpp
+	rm -f graphics/cards/artwork/*.huff
+	rm -f graphics/cards/artwork/*.gbapal
 	rm -f graphics/cards/attributes/*.4bpp
 	rm -f graphics/cards/attributes/*.gbapal
 	rm -f graphics/cards/types/*.4bpp
 	rm -f graphics/cards/types/*.gbapal
 	rm -f src/overworld/entities/*.4bpp
 	rm -f src/overworld/entities/*.gbapal
+	rm -f src/card_artworks.c
 
 %.4bpp: %.png | tools-rules
 	tools/gbagfx/gbagfx $< $@
@@ -34,3 +41,5 @@ clean-graphics:
 	tools/gbagfx/gbagfx $< $@
 %.gbapal: %.png | tools-rules
 	tools/gbagfx/gbagfx $< $@
+graphics/cards/artwork/%.huff: graphics/cards/artwork/%.8bpp | tools-rules
+	tools/gbagfx/gbagfx $< $@ -ygodm -depth 8

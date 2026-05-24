@@ -4,17 +4,20 @@
 MAKEFLAGS += --no-print-directory
 
 # Inclusive list. If you don't want a tool to be built, don't add it here.
-TOOL_NAMES := gbagfx preproc
+TOOL_NAMES := gbagfx preproc cardjson
 
 TOOLDIRS := $(TOOL_NAMES:%=tools/%)
 
-tools-rules: tools/gbagfx/gbagfx tools/preproc/preproc
+tools-rules: tools/gbagfx/gbagfx tools/preproc/preproc tools/cardjson/cardjson
 
 tools/gbagfx/gbagfx:
 	@$(MAKE) -C tools/gbagfx
 
 tools/preproc/preproc:
 	@$(MAKE) -C tools/preproc
+  
+tools/cardjson/cardjson:
+	@$(MAKE) -C tools/cardjson
 
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
