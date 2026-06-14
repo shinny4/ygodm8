@@ -309,6 +309,8 @@ static void HflipTile(unsigned char * tile, int bitDepth)
     }
 }
 
+int gPalOffset;
+
 static void DecodeNonAffineTilemap(unsigned char *input, unsigned char *output, struct NonAffineTile *tilemap, int tileSize, int outTileSize, int bitDepth, int numTiles)
 {
     unsigned char * in_tile;
@@ -321,24 +323,26 @@ static void DecodeNonAffineTilemap(unsigned char *input, unsigned char *output, 
             memcpy(out_tile, in_tile, tileSize);
         else
         {
-            for (int j = 0; j < 64; j++)
+            for (int j = 0; j < 32; j++)
             {
-                int shift = (j & 1) * 4;
-                out_tile[j] = (in_tile[j / 2] & (0xF << shift)) >> shift;
+                //int shift = (j & 1) * 4;
+                //out_tile[j] = (in_tile[j / 2] & (0xF << shift)) >> shift;
+                out_tile[j * 2] = (in_tile[j] & 0xF) + (tilemap[i].palno - gPalOffset) * 16;
+                out_tile[j * 2 + 1] = ((in_tile[j] & 0xF0) >> 4) + (tilemap[i].palno - gPalOffset) * 16;
             }
         }
         if (tilemap[i].hflip)
             HflipTile(out_tile, effectiveBitDepth);
         if (tilemap[i].vflip)
             VflipTile(out_tile, effectiveBitDepth);
-        if (bitDepth == 4 && effectiveBitDepth == 8)
+      /*if (bitDepth == 4 && effectiveBitDepth == 8)
         {
             for (int j = 0; j < 64; j++)
             {
                 out_tile[j] &= 0xF;
                 out_tile[j] |= (15 - tilemap[i].palno) << 4;
             }
-        }
+        }*/
         out_tile += outTileSize;
     }
 }
