@@ -31,7 +31,6 @@ extern u16 gOamBuffer[];
 void InitTrunkData (void);
 void InitDeckData (void);
 void StatusMenu (void);
-void TrunkMenuMain (void);
 bool8 IsPlayerDeckFull (void);
 bool32 IsCostWithinCapacity (void);
 u32 IsPlayerDeckNonempty (void);

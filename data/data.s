@@ -954,16 +954,3 @@ gUnk_808ECD0:
     .global gUnk_808ECF0
 gUnk_808ECF0:
     .incbin "baserom.gba", 0x8ECF0, 0x20
-
-
-
-.section .rodata2
-
-  .global g80903D0
-g80903D0:
-  .incbin "baserom.gba", 0x903D0, 0x20
-  
-  .global g80903F0
-g80903F0:
-  .incbin "baserom.gba", 0x903F0, 0x80
-@90470

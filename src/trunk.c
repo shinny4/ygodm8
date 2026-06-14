@@ -28,8 +28,6 @@ static const unsigned char g80907E4[] = _(
     "かばんへもどす"
 );
 
-//static const unsigned char sFiller_809091F = 0; //TODO: 4byte align other strings?
-
 static const unsigned char g8090920[] = __(
   "{ENG}"
     "Reorder       "
@@ -83,8 +81,6 @@ static const unsigned char g8090920[] = __(
 
 static const unsigned char g8090B94[] = __("／");
 
-//static const unsigned char sFiller_8090B97 = 0;
-
 static const unsigned char g8090B98[] = __(
   "{ENG}"
     "No" "NM" "AT" "DF" "TY" "SU" "QT" "CS" "ST" "EF"
@@ -114,8 +110,6 @@ static const unsigned char g8090C20[] = __(
   "{JAP}"
     "コスト"
 );
-
-//static const unsigned char sFiller_8090C4D[3] = {0};
 
 static const unsigned char g8090C50[] = __("0123456789");
 
@@ -147,12 +141,17 @@ static void SetCursorOam (void);
 void sub_8008A48 (void);
 static void sub_8008A5C (void);
 
+int TrunkMenuProcessInput (void);
+
+
+
+
+
 
 void TrunkMenuDefaultSort (void);
 void sub_800ABB4 (void);
 
 
-void WaitForVBlank(void);
 unsigned short GetNthCardOnScreen(unsigned char);
 void GoUpOnePosition(void);
 void GoDownOnePosition(void);
@@ -192,7 +191,7 @@ extern unsigned short gUnk_8090470[];
 extern unsigned char gStarTile[];
 extern unsigned char gSwordTile[];
 extern unsigned char gShieldTile[];
-extern unsigned short gUnk_808ECD0[]; //trunk character palette?
+extern unsigned short gUnk_808ECD0[]; //trunk text(white digits and card names), star, sword, shield palette 
 extern unsigned short *gAttributeIconPalettes[];
 extern unsigned short *gTypeIconPalettes[];
 extern unsigned char *gTypeIconTiles[][NUM_LANGUAGES];
@@ -225,7 +224,7 @@ extern unsigned short gNewButtons;
 extern unsigned short gFilteredInput;
 
 void UpdateFilteredInput_NoRepeat (void);
-int TrunkProcessInput (void);
+
 
 
 
@@ -240,7 +239,7 @@ void TrunkMenuMain (void) {
   unsigned keepProcessing = 1;
   InitTrunkMenu();
   while (keepProcessing) {
-    switch ((unsigned short)TrunkProcessInput()) {
+    switch ((unsigned short)TrunkMenuProcessInput()) {
       case REPEAT_DPAD_UP:
         PressUpInTrunkMenu();
         sub_800ABB4();
@@ -306,7 +305,7 @@ void TrunkMenuMain (void) {
   }
 }
 
-int TrunkProcessInput (void) {
+int TrunkMenuProcessInput (void) {
   unsigned char i;
   unsigned short mask;
   unsigned short ret = 0;
@@ -1134,7 +1133,7 @@ void sub_8009784 (void) {
 extern const unsigned char gUnk_80AEB00[];
 extern const unsigned char gUnk_80AEB30[];
 extern unsigned short gUnk_808E820[][30];
-extern unsigned short gUnk_808ECF0[];
+extern unsigned short gUnk_808ECF0[]; // red (pinkish?) digits palette
 
 // same as sub_800CD88?
 /*

@@ -505,9 +505,6 @@ bool32 ZoneHasUnlockedMonsterCard(struct DuelCard*);
 void ClearZoneAndSendMonToGraveyard2 (struct DuelCard *zone, u8 player);
 
 
-void SetVBlankCallback(void (*)(void));
-void WaitForVBlank (void);
-
 void ClearPlayerName(void);
 void InitTrunkCards(void);
 void InitNewGameDeck(void);

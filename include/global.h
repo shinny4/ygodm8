@@ -15,6 +15,7 @@
 #include "world_map.h"
 #include "start_menu.h"
 #include "naming_screen.h"
+#include "trunk.h"
 #include "card.h"
 #include "digit.h"
 #include "compression.h"
@@ -51,6 +52,12 @@
 #include "constants/card_ids.h"
 #include "constants/music_ids.h"
 #include "constants/duel_text_ids.h"
+
+
+void SetVBlankCallback(void (*)(void));
+void WaitForVBlank (void);
+
+
 
 extern unsigned char UNK12[];
 extern unsigned char UNK2C5[];

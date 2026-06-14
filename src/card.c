@@ -6,6 +6,17 @@ static signed char sFiller201CB3A[2];
 struct StatMod gStatMod;
 struct CardInfo gCardInfo;
 
+
+extern const unsigned char gStarTile[];
+extern const unsigned char gSwordTile[];
+extern const unsigned char gShieldTile[];
+extern const unsigned short gUnk_808E820[][30];
+extern unsigned short gUnk_808ECD0[];
+extern unsigned short gUnk_808ECF0[];
+
+
+
+
 // it seems that they forgot to add const when adding the gfx for languages other than english
 // so they end up in the .data section
 
@@ -160,9 +171,8 @@ static const unsigned short AttributeThunderPalette[] = INCBIN_U16("graphics/car
 static const unsigned short AttributeAquaPalette[] = INCBIN_U16("graphics/cards/attributes/english_aqua.gbapal");
 static const unsigned short AttributeDivinePalette[] = INCBIN_U16("graphics/cards/attributes/english_divine.gbapal");
 
-
-extern const unsigned short g80903D0[]; //black palette (used for both type and attribute)
-extern const unsigned char g80903F0[]; //black tile (used for both type and attribute)
+static const unsigned short g80903D0[32/2] = {0}; //black palette (used for both type and attribute)
+static const unsigned char g80903F0[128] = {0}; //black tile (used for both type and attribute)
 
 const unsigned short * CONST_DATA gTypeIconPalettes[] = {
   [TYPE_NONE] = g80903D0,
@@ -474,12 +484,13 @@ static void sub_800BCEC (void);
 static unsigned char* GetCardName (unsigned short);
 
 
-extern unsigned short g08097C94[];
+// TODO: distinguish between GBA backgrounds and backgrounds as in "The distant, rear portion of a picture or scene."
+
+
 extern unsigned short (*gUnk_8E0136C)[][14];
 extern unsigned short *gUnk_8E01368;
 extern u8 *gUnk_8E01364;
-extern u8 gUnk8094C37[];
-extern u8 gUnk8094CC3[];
+
 extern u8 gUnk8094FE4[NUM_FIELDS][NUM_CARD_TYPES];
 extern u8* gUnk8F985E0[];
 extern u32 gCardCosts[];
@@ -491,15 +502,12 @@ extern u8 gCardMagicEffect[];
 extern u8 gCardMonsterEffects[];
 extern u8 gCardTrapEffect[];
 extern u8 gDuelistLevelTooLowText[];
-extern unsigned short gUnk_808ECD0[];
-extern unsigned short gUnk_808ECF0[];
 
 
-extern u8 gStarTile[];
-extern u8 gSwordTile[];
-extern u8 gShieldTile[];
 
-extern unsigned short gUnk_808E820[][30];
+
+
+
 extern u8 gUnk8DFB8A8[]; //french summon/cost tiles
 extern u8 gUnk8DFBAE8[]; //german type/summon/cost tiles
 extern u8 gUnk8DFBDE8[]; //italian and spanish type/summon/cost tiles (Type is spelled the same for both)
@@ -508,9 +516,19 @@ void *GetCardTypeString(u8 type);
 
 extern u8* gCardNames[];
 extern u8* g8DFCF0C[];
-extern unsigned short gUnk8097D94[][31]; //248x160p (31x20t) tilemap
-extern u32 g0809553C[]; //tileset
-extern unsigned short g809508C[][30];
+
+
+
+extern const unsigned char gUnk8094C37[];
+extern const unsigned char gUnk8094CC3[];
+extern const unsigned short g809508C[][30]; // card name, description, type, summon and cost tilemap (GBA background 2)
+
+// (GBA background 3)
+extern const unsigned char g0809553C[]; //card details background tileset
+extern unsigned short g08097C94[]; // card details bg palette
+extern const unsigned short gUnk8097D94[][31]; //248x160p (31x20t) card details background tilemap
+
+
 
 
 
@@ -709,7 +727,7 @@ void sub_800B618(void *r6) //card details screen gfx
         break;
     }
 
-    CpuCopy32(g08097C94, &gPaletteBuffer[8 * 16], 256); //copy palette
+    CpuCopy32(g08097C94, &gPaletteBuffer[8 * 16], 256); //copy palette (the last 2 palettes are for text)
 
     for (i = 0; i < 20; i++)
         CpuCopy32(g809508C[i], gBgVram.sbb1E[i], 60);
@@ -1459,7 +1477,7 @@ const unsigned char gUnk_80AEB00[] = __(
   "{JAP}"
     "コスト"
 );
-//static const unsigned char sFiller_80AEB2D[3] = {0};
+
 __attribute__((section(".rodata2"))) //todo: remove
 static const unsigned char gUnk_80AEB30[] = __("0123456789");
 
@@ -1507,8 +1525,7 @@ extern u8 g8DFAFF4[];
 extern unsigned short gTrunkMenuBgTilemap[][30];
 extern u8 g80AE544[];
 
-void LoadPalettes(void);
-void LoadCharblock1(void);
+
 extern unsigned short gUnk_808D050[][30];
 extern u8 g80AE02C[];
 extern u8 g80AE1A8[];
@@ -1519,7 +1536,7 @@ void sub_8035038(unsigned short);
 void InitTrunkData(void);
 void InitDeckData(void);
 void TrunkMenuDefaultSort(void);
-s32 TrunkProcessInput(void);
+int TrunkMenuProcessInput (void);
 void RunTrunkTask(u8);
 void sub_800D904(); //TODO
 void sub_800ABB4(void);
@@ -1560,7 +1577,7 @@ void DuelTrunkMenu (void)
     keepProcessing = 1;
     while (keepProcessing)
     {
-        switch (TrunkProcessInput())
+        switch (TrunkMenuProcessInput())
         {
         case 0x40:
             RunTrunkTask(3);

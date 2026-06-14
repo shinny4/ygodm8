@@ -702,7 +702,7 @@ void sub_8022B7C(unsigned char);
 void sub_8022AA0(void);
 void sub_8023AE4(void);
 void sub_8023A98(void);
-void TrunkMenuMain(void);
+
 void sub_8022A94(unsigned char);
 u32 IsPlayerDeckNonempty(void);
 

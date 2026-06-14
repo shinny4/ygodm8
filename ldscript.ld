@@ -366,7 +366,6 @@ SECTIONS
 
         data/data.o(.rodata);
         src/card.o(.rodata);
-        data/data.o(.rodata2);
         src/data/starter_trunk.o(.rodata);
 
         src/trunk.o(.rodata);

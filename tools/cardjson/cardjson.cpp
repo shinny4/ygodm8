@@ -226,15 +226,27 @@ static void GenerateCardArtworksFile () {
   cardArtworksFile << "// DO NOT MODIFY THIS FILE! It is auto-generated from card.json\n";
   for (string & sanitizedName : sSanitizedEnglishNames) {
     unsigned id = 0;
-    cardArtworksFile << "static const unsigned char s" << id << "[] = INCBIN_U8(\"graphics/cards/artwork/";
+    cardArtworksFile << "static const unsigned char t" << id << "[] = INCBIN_U8(\"graphics/cards/artwork/";
     id++;
     for (unsigned i = 0; i < sanitizedName.length(); i++)
       cardArtworksFile << static_cast<unsigned char>(tolower(sanitizedName[i]));
     cardArtworksFile << ".huff\");\n";
   }
-  cardArtworksFile << "const unsigned char * gCardArtworks[] = {\n";
+  cardArtworksFile << "const unsigned char * gCardArtworks[] = {\n"; //TODO: CONST_DATA
   for (unsigned id = 0; id < sSanitizedEnglishNames.size(); id++)
-    cardArtworksFile << "  s" << id << ",\n";
+    cardArtworksFile << "  t" << id << ",\n";
+  cardArtworksFile << "};\n";
+  for (string & sanitizedName : sSanitizedEnglishNames) {
+    unsigned id = 0;
+    cardArtworksFile << "static const unsigned short p" << id << "[] = INCBIN_U8(\"graphics/cards/artwork/";
+    id++;
+    for (unsigned i = 0; i < sanitizedName.length(); i++)
+      cardArtworksFile << static_cast<unsigned char>(tolower(sanitizedName[i]));
+    cardArtworksFile << ".gbapal\");\n";
+  }
+  cardArtworksFile << "const unsigned short * gCardArtPalettes[] = {\n"; //TODO: CONST_DATA
+  for (unsigned id = 0; id < sSanitizedEnglishNames.size(); id++)
+    cardArtworksFile << "  p" << id << ",\n";
   cardArtworksFile << "};\n";
   cardArtworksFile.close();
 }
