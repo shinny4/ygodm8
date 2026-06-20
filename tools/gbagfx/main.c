@@ -294,6 +294,18 @@ void HandlePngToGbaCommand(char *inputPath, char *outputPath, int argc, char **a
             if (options.dataWidth < 1)
                 FATAL_ERROR("Data width must be positive.\n");
         }
+        else if (strcmp(option, "-pal_offset") == 0)
+        {
+            if (i + 1 >= argc)
+                FATAL_ERROR("No palette offset value following \"-pal_offset\".\n");
+            i++;
+
+            if (!ParseNumber(argv[i], NULL, 10, &gPalOffset))
+                FATAL_ERROR("Failed to parse palette offset.\n");
+
+            if (options.dataWidth < 1)
+                FATAL_ERROR("Palette offset must be positive.\n");
+        }
         else
         {
             FATAL_ERROR("Unrecognized option \"%s\".\n", option);

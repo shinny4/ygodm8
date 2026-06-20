@@ -19,6 +19,8 @@
 
 #define DOWNCONVERT_BIT_DEPTH(x) ((x) / 8)
 
+int gPalOffset;
+
 static void AdvanceMetatilePosition(int *subTileX, int *subTileY, int *metatileX, int *metatileY, int metatilesWide, int metatileWidth, int metatileHeight)
 {
 	(*subTileX)++;
@@ -112,7 +114,7 @@ static void ConvertFromTiles8Bpp(unsigned char *src, unsigned char *dest, int nu
 				if (invertColors)
 					srcPixel = 255 - srcPixel;
 
-				dest[destY * pitch + destX] = srcPixel;
+				dest[destY * pitch + destX] = srcPixel == 0 ? 0 : srcPixel - gPalOffset * 16;
 			}
 		}
 
@@ -196,7 +198,7 @@ static void ConvertToTiles8Bpp(unsigned char *src, unsigned char *dest, int numT
 				if (invertColors)
 					srcPixel = 255 - srcPixel;
 
-				*dest++ = srcPixel;
+				*dest++ = srcPixel == 0 ? 0 : srcPixel + gPalOffset * 16;
 			}
 		}
 
@@ -308,8 +310,6 @@ static void HflipTile(unsigned char * tile, int bitDepth)
         break;
     }
 }
-
-int gPalOffset;
 
 static void DecodeNonAffineTilemap(unsigned char *input, unsigned char *output, struct NonAffineTile *tilemap, int tileSize, int outTileSize, int bitDepth, int numTiles)
 {
