@@ -387,7 +387,8 @@ SECTIONS
         data/data4.o(.rodata3);
         src/overworld/entities/entities.o(.rodata);
         data/data4.o(.ow_entities);
-
+        src/overworld/portraits.o(.rodata);
+        data/data4.o(.rodata4);
         *libgcc.a:*.o(.rodata);
 
 
@@ -428,6 +429,8 @@ SECTIONS
         data/data5.o(.data4);
         src/duel/turn.o(.rodata); /*TODO: .data?*/
         data/data6.o(.data);
+        src/overworld/portraits.o(.data);
+        data/data6.o(.data2);
     }
 
 
@@ -750,8 +753,6 @@ SECTIONS
     g8E0E45E = 0x8E0E45E;
 
     gMapStates = 0x8103314;
-    g8FA31C0 = 0x8FA31C0;
-    g8FA3360 = 0x8FA3360;
     g8E0E834 = 0x8E0E834;
     g8E0E838 = 0x8E0E838;
     gE0E83C = 0x8E0E83C;

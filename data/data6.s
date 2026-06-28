@@ -1665,7 +1665,14 @@ gUnk_8E17F18:
 
     .global gUnk_8E17F48
 gUnk_8E17F48:
-    .incbin "baserom.gba", 0xE17F48, 0x18B6E8
+    .incbin "baserom.gba", 0xE17F48, 0x18AF5C
+
+
+//0xFA2EA4
+
+.section .data2
+    .incbin "baserom.gba", 0xfa3430, 0x200
+
 
     .global gUnk_8FA3630
 gUnk_8FA3630:

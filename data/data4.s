@@ -7015,7 +7015,7 @@ gUnk_893B282:
 
     .global gUnk_893B290
 gUnk_893B290:
-    .incbin "baserom.gba", 0x93B290, 0x109CCC
+    .incbin "baserom.gba", 0x93B290, 0xA2818
 //93B290 = facedown card tiles
 //93B690 = mini-card border (normal monster?)
 //93DE90 = start of lz compressed (-search 8) mini-card tiles (24x24 pixels 3x3 tiles)
@@ -7023,14 +7023,11 @@ gUnk_893B290:
 //9A781C = mini-card palette (is used by facedown, attribute icons, and other little icons placed on top of cards)
 //9A7C1E = start of mini attribute icons
 //
-    //end of rodata?
 
+.section .rodata4
 
-
-
-
-
-
+//trade_menu
+.incbin "baserom.gba", 0xA31F24, 0x13038
 
 
     //start of .data? probably not since it's before *libgcc.a:*.o(.rodata);    '

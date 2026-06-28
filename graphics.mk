@@ -14,14 +14,26 @@ CARD_ATTRIBUTE_PALETTES := $(patsubst graphics/cards/attributes/%.png,graphics/c
 OVERWORLD_ENTITY_PNGS := $(wildcard src/overworld/entities/*.png)
 OVERWORLD_ENTITY_TILES := $(patsubst src/overworld/entities/%.png,src/overworld/entities/%.4bpp,$(OVERWORLD_ENTITY_PNGS))
 
-graphics-rules: $(CARD_TYPE_TILES) \
-                $(CARD_TYPE_PALETTES) \
-                $(CARD_ATTRIBUTE_TILES) \
-                $(CARD_ATTRIBUTE_PALETTES) \
-                $(CARD_ARTWORK_TILES) \
-                $(CARD_ARTWORK_TILES_COMPRESSED) \
-                $(CARD_ARTWORK_PALETTES) \
-                $(OVERWORLD_ENTITY_TILES) src/overworld/entities/palette.gbapal
+PORTRAIT_PNGS := $(wildcard src/overworld/portraits/*.png)
+PORTRAIT_TILES := $(patsubst src/overworld/portraits/%.png,src/overworld/portraits/%.8bpp,$(PORTRAIT_PNGS))
+PORTRAIT_TILES_COMPRESSED := $(patsubst src/overworld/portraits/%.png,src/overworld/portraits/%.lz,$(PORTRAIT_PNGS))
+PORTRAIT_PALETTES := $(patsubst src/overworld/portraits/%_neutral.png,src/overworld/portraits/%.gbapal,$(PORTRAIT_PNGS))
+
+graphics-rules: $(CARD_TYPE_TILES) $(CARD_TYPE_PALETTES) \
+                $(CARD_ATTRIBUTE_TILES) $(CARD_ATTRIBUTE_PALETTES) \
+                $(CARD_ARTWORK_TILES) $(CARD_ARTWORK_TILES_COMPRESSED) $(CARD_ARTWORK_PALETTES) \
+                $(OVERWORLD_ENTITY_TILES) src/overworld/entities/palette.gbapal \
+                $(PORTRAIT_TILES) $(PORTRAIT_TILES_COMPRESSED) $(PORTRAIT_PALETTES)
+
+src/overworld/portraits/%.8bpp: src/overworld/portraits/%.png | tools-rules
+	tools/gbagfx/gbagfx $< $@ -pal_offset 12
+
+src/overworld/portraits/%.lz: src/overworld/portraits/%.8bpp | tools-rules
+	tools/gbagfx/gbagfx $< $@ -search 1
+
+src/overworld/portraits/%.gbapal: src/overworld/portraits/%_neutral.png | tools-rules
+	tools/gbagfx/gbagfx $< $@
+
 
 clean-graphics:
 	rm -f graphics/cards/artwork/*.8bpp
@@ -33,6 +45,9 @@ clean-graphics:
 	rm -f graphics/cards/types/*.gbapal
 	rm -f src/overworld/entities/*.4bpp
 	rm -f src/overworld/entities/*.gbapal
+	rm -f src/overworld/portraits/*.8bpp
+	rm -f src/overworld/portraits/*.lz
+	rm -f src/overworld/portraits/*.gbapal
 	rm -f src/card_artworks.c
 
 %.4bpp: %.png | tools-rules
@@ -41,5 +56,6 @@ clean-graphics:
 	tools/gbagfx/gbagfx $< $@
 %.gbapal: %.png | tools-rules
 	tools/gbagfx/gbagfx $< $@
-graphics/cards/artwork/%.huff: graphics/cards/artwork/%.8bpp | tools-rules
+graphics/cards/artwork/%.huff: graphics/cards/artwork/%.8bpp
 	tools/gbagfx/gbagfx $< $@ -ygodm -depth 8
+

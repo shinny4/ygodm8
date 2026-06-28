@@ -16,8 +16,9 @@ void sub_804ECA8 (void);
 void sub_80553F8(struct ScriptCtx *script, u8);
 
 
-extern u32** g8FA31C0[];
-extern u16** g8FA3360[];
+extern const unsigned char * const * CONST_DATA gPortraits[];
+extern const unsigned short * const * CONST_DATA gPortraitPalettes[];
+
 extern u8 gSharedMem[];
 extern struct OamData gOamBuffer[];
 extern u16 gNewButtons;
@@ -75,9 +76,9 @@ static void DisplayPortrait (struct ScriptCtx* scriptCtx) {
   SetVBlankCallback(LoadOam);
   WaitForVBlank();
   sub_804EB04(oam, scriptCtx->unk85);
-  LZ77UnCompWram(g8FA31C0[scriptCtx->portraitId][scriptCtx->unk84], gSharedMem);
+  LZ77UnCompWram(gPortraits[scriptCtx->portraitId][scriptCtx->unk84], gSharedMem);
   sub_805342C_inline(gBgVram.cbb4 + 0x2000, gSharedMem);
-  CpuCopy16(*g8FA3360[scriptCtx->portraitId], gPaletteBuffer + 256 + 0xC0, 128);
+  CpuCopy16(*gPortraitPalettes[scriptCtx->portraitId], gPaletteBuffer + 256 + 0xC0, 128);
   if (CheckFlag(0xF3))
     sub_8044E50(gPaletteBuffer, 0x1C0, 0x1FF);
   WaitForVBlank();
