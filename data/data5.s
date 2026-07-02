@@ -79,41 +79,41 @@ gUnk_8DF7940:
 
     .global gUnk_8DF7978
 gUnk_8DF7978:
-    .4byte gUnk_8072EA0
-    .4byte gUnk_8072FA0
-    .4byte gUnk_80730A0
-    .4byte gUnk_80731A0
-    .4byte gUnk_80732A0
-    .4byte gUnk_80733A0
-    .4byte gUnk_80734A0
-    .4byte gUnk_80735A0
-    .4byte gUnk_80736A0
-    .4byte gUnk_80737A0
-    .4byte gUnk_80738A0
-    .4byte gUnk_80739A0
-    .4byte gUnk_8073AA0
-    .4byte gUnk_8072EA0
-    .4byte gUnk_8072EA0
-    .4byte gUnk_8072EA0
+    .4byte sClockTowerSquarePalette
+.4byte sDominoStationPalette
+.4byte sEgyptExhibitionPalette
+.4byte sDominoPierPalette
+.4byte sItalyPalette
+.4byte sChinaPalette
+.4byte sCanadaPalette
+.4byte sGalapagosPalette
+.4byte sPegasusIslandPalette
+.4byte sDungeonPalette
+.4byte sPegasusCastlePalette
+.4byte sHallOfEternityPalette
+.4byte sEgyptPalette
+    .4byte sClockTowerSquarePalette
+    .4byte sClockTowerSquarePalette
+    .4byte sClockTowerSquarePalette
 
     .global gUnk_8DF79B8
 gUnk_8DF79B8:
-    .4byte gUnk_8066BA0
-    .4byte gUnk_8067AA0
-    .4byte gUnk_80689A0
-    .4byte gUnk_80698A0
-    .4byte gUnk_806A7A0
-    .4byte gUnk_806B6A0
-    .4byte gUnk_806C5A0
-    .4byte gUnk_806D4A0
-    .4byte gUnk_806E3A0
-    .4byte gUnk_806F2A0
-    .4byte gUnk_80701A0
-    .4byte gUnk_80710A0
-    .4byte gUnk_8071FA0
-    .4byte gUnk_8066BA0
-    .4byte gUnk_8066BA0
-    .4byte gUnk_8066BA0
+    .4byte sClockTowerSquareTiles
+.4byte sDominoStationTiles
+.4byte sEgyptExhibitionTiles
+.4byte sDominoPierTiles
+.4byte sItalyTiles
+.4byte sChinaTiles
+.4byte sCanadaTiles
+.4byte sGalapagosTiles
+.4byte sPegasusIslandTiles
+.4byte sDungeonTiles
+.4byte sPegasusCastleTiles
+.4byte sHallOfEternityTiles
+.4byte sEgyptTiles
+.4byte sClockTowerSquareTiles
+.4byte sClockTowerSquareTiles
+.4byte sClockTowerSquareTiles
 
     .global gUnk_8DF79F8
 gUnk_8DF79F8:

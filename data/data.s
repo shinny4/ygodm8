@@ -95,132 +95,19 @@ gUnk_8064038:
 
 // worldmap.c start
 
-    .global gWorldMapTiles
-gWorldMapTiles:
-    .incbin "baserom.gba", 0x64058, 0x2518
+    .section .world_map
 
-    .global gWorldMapPalette
-gWorldMapPalette:
-    .incbin "baserom.gba", 0x66570, 0x180
-
-    .global gWorldMapTilemap
-gWorldMapTilemap:
-    .incbin "baserom.gba", 0x666F0, 0x4B0
-
-    .global gUnk_8066BA0
-gUnk_8066BA0:
-    .incbin "baserom.gba", 0x66BA0, 0xF00
-
-    .global gUnk_8067AA0
-gUnk_8067AA0:
-    .incbin "baserom.gba", 0x67AA0, 0xF00
-
-    .global gUnk_80689A0
-gUnk_80689A0:
-    .incbin "baserom.gba", 0x689A0, 0xF00
-
-    .global gUnk_80698A0
-gUnk_80698A0:
-    .incbin "baserom.gba", 0x698A0, 0xF00
-
-    .global gUnk_806A7A0
-gUnk_806A7A0:
-    .incbin "baserom.gba", 0x6A7A0, 0xF00
-
-    .global gUnk_806B6A0
-gUnk_806B6A0:
-    .incbin "baserom.gba", 0x6B6A0, 0xF00
-
-    .global gUnk_806C5A0
-gUnk_806C5A0:
-    .incbin "baserom.gba", 0x6C5A0, 0xF00
-
-    .global gUnk_806D4A0
-gUnk_806D4A0:
-    .incbin "baserom.gba", 0x6D4A0, 0xF00
-
-    .global gUnk_806E3A0
-gUnk_806E3A0:
-    .incbin "baserom.gba", 0x6E3A0, 0xF00
-
-    .global gUnk_806F2A0
-gUnk_806F2A0:
-    .incbin "baserom.gba", 0x6F2A0, 0xF00
-
-    .global gUnk_80701A0
-gUnk_80701A0:
-    .incbin "baserom.gba", 0x701A0, 0xF00
-
-    .global gUnk_80710A0
-gUnk_80710A0:
-    .incbin "baserom.gba", 0x710A0, 0xF00
-
-    .global gUnk_8071FA0
-gUnk_8071FA0:
-    .incbin "baserom.gba", 0x71FA0, 0xF00
-
-    .global gUnk_8072EA0
-gUnk_8072EA0:
-    .incbin "baserom.gba", 0x72EA0, 0x100
-
-    .global gUnk_8072FA0
-gUnk_8072FA0:
-    .incbin "baserom.gba", 0x72FA0, 0x100
-
-    .global gUnk_80730A0
-gUnk_80730A0:
-    .incbin "baserom.gba", 0x730A0, 0x100
-
-    .global gUnk_80731A0
-gUnk_80731A0:
-    .incbin "baserom.gba", 0x731A0, 0x100
-
-    .global gUnk_80732A0
-gUnk_80732A0:
-    .incbin "baserom.gba", 0x732A0, 0x100
-
-    .global gUnk_80733A0
-gUnk_80733A0:
-    .incbin "baserom.gba", 0x733A0, 0x100
-
-    .global gUnk_80734A0
-gUnk_80734A0:
-    .incbin "baserom.gba", 0x734A0, 0x100
-
-    .global gUnk_80735A0
-gUnk_80735A0:
-    .incbin "baserom.gba", 0x735A0, 0x100
-
-    .global gUnk_80736A0
-gUnk_80736A0:
-    .incbin "baserom.gba", 0x736A0, 0x100
-
-    .global gUnk_80737A0
-gUnk_80737A0:
-    .incbin "baserom.gba", 0x737A0, 0x100
-
-    .global gUnk_80738A0
-gUnk_80738A0:
-    .incbin "baserom.gba", 0x738A0, 0x100
-
-    .global gUnk_80739A0
-gUnk_80739A0:
-    .incbin "baserom.gba", 0x739A0, 0x100
-
-    .global gUnk_8073AA0
-gUnk_8073AA0:
-    .incbin "baserom.gba", 0x73AA0, 0x100
 
     .global gUnk_8073BA0
 gUnk_8073BA0:
     .incbin "baserom.gba", 0x73BA0, 0x618
 
-    .global gUnk_80741B8
-gUnk_80741B8:
+    .global sTextPalette
+sTextPalette:
     .incbin "baserom.gba", 0x741B8, 0x20
 
-    .global gUnk_80741D8
-gUnk_80741D8:
+    .global sCursorPalette
+sCursorPalette:
     .incbin "baserom.gba", 0x741D8, 0x20
 
     .global gUnk_80741F8

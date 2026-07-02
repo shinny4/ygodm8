@@ -53,6 +53,14 @@
 #include "constants/music_ids.h"
 #include "constants/duel_text_ids.h"
 
+/*
+//todo: use fixed types: uint16_t, uint32_t?
+extern union OamUnion {
+  unsigned short oamU16[4]; 
+  unsigned long oamU32[2];
+  struct OamData oamStruct;
+} gOamBuffer[];
+*/
 
 void SetVBlankCallback(void (*)(void));
 void WaitForVBlank (void);

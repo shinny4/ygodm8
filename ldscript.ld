@@ -232,7 +232,7 @@ SECTIONS
 
         src/cutscene.o(.text);
         asm/cutscenes.o(.text);
-        src/world_map.o(.text);
+        src/world_map/world_map.o(.text);
         asm/world_map.o(.text);
         src/start_menu.o(.text);
         src/naming_screen.o(.text);
@@ -365,6 +365,8 @@ SECTIONS
         /*.rodata*/
 
         data/data.o(.rodata);
+        src/world_map/world_map.o(.rodata);
+        data/data.o(.world_map);
         src/card.o(.rodata);
         src/data/starter_trunk.o(.rodata);
 

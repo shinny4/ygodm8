@@ -19,11 +19,16 @@ PORTRAIT_TILES := $(patsubst src/overworld/portraits/%.png,src/overworld/portrai
 PORTRAIT_TILES_COMPRESSED := $(patsubst src/overworld/portraits/%.png,src/overworld/portraits/%.lz,$(PORTRAIT_PNGS))
 PORTRAIT_PALETTES := $(patsubst src/overworld/portraits/%_neutral.png,src/overworld/portraits/%.gbapal,$(PORTRAIT_PNGS))
 
+WORLD_MAP_LOCATION_PNGS := $(wildcard src/world_map/locations/*.png)
+WORLD_MAP_LOCATION_TILES := $(patsubst src/world_map/locations/%.png,src/world_map/locations/%.8bpp,$(WORLD_MAP_LOCATION_PNGS))
+WORLD_MAP_LOCATION_PALETTES := $(patsubst src/world_map/locations/%.png,src/world_map/locations/%.gbapal,$(WORLD_MAP_LOCATION_PNGS))
+
 graphics-rules: $(CARD_TYPE_TILES) $(CARD_TYPE_PALETTES) \
                 $(CARD_ATTRIBUTE_TILES) $(CARD_ATTRIBUTE_PALETTES) \
                 $(CARD_ARTWORK_TILES) $(CARD_ARTWORK_TILES_COMPRESSED) $(CARD_ARTWORK_PALETTES) \
                 $(OVERWORLD_ENTITY_TILES) src/overworld/entities/palette.gbapal \
-                $(PORTRAIT_TILES) $(PORTRAIT_TILES_COMPRESSED) $(PORTRAIT_PALETTES)
+                $(PORTRAIT_TILES) $(PORTRAIT_TILES_COMPRESSED) $(PORTRAIT_PALETTES) \
+                $(WORLD_MAP_LOCATION_TILES) $(WORLD_MAP_LOCATION_PALETTES) src/world_map/world_map.gbapal
 
 src/overworld/portraits/%.8bpp: src/overworld/portraits/%.png | tools-rules
 	tools/gbagfx/gbagfx $< $@ -pal_offset 12
@@ -49,6 +54,9 @@ clean-graphics:
 	rm -f src/overworld/portraits/*.lz
 	rm -f src/overworld/portraits/*.gbapal
 	rm -f src/card_artworks.c
+	rm -f src/world_map/world_map.gbapal
+	rm -f src/world_map/locations/*.8bpp
+	rm -f src/world_map/locations/*.gbapal
 
 %.4bpp: %.png | tools-rules
 	tools/gbagfx/gbagfx $< $@
